@@ -13,6 +13,7 @@ public class Application extends Controller
         CoreTask task = new CoreTask();
 
         Logger.debug("SA");
+        Logger.error("qwe");
         return ok("Hello world.");
     }
 
