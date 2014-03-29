@@ -12,8 +12,6 @@ public class Application extends Controller
         // Test importing from tuo-core
         CoreTask task = new CoreTask();
 
-        Logger.debug("SA");
-        Logger.error("qwe");
         return ok("Hello world.");
     }
 
