@@ -12,7 +12,7 @@ public class Application extends Controller
         // Test importing from tuo-core
         CoreTask task = new CoreTask();
 
-        //lel
+      
         return ok("Hello world.");
     }
 
