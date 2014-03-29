@@ -31,4 +31,4 @@ Icon
 .Trashes
 
 # symbolic link to core
-app/co/uberdev/ultimateorganizer/core
+./app/co/uberdev/ultimateorganizer/core
