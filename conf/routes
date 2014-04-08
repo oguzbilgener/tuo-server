@@ -11,7 +11,7 @@ GET     /v1                           controllers.v1.Application.index()
 GET     /v1/                           controllers.v1.Application.index()
 
 POST    /v1/auth/login                          controllers.v1.Auth.login()
-POST    /v1/verify:public_key&:hash_body        controllers.v1.Auth.verify(String public_key, String hash_body)
+POST    /v1/verify:public_key&:hash_body        controllers.v1.Auth.verify(public_key: String,hash_body String:)
 # home
 
 # Map static resources from the /public folder to the /assets URL path
