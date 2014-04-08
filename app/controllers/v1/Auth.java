@@ -51,9 +51,9 @@ public class Auth extends Controller
 
         try
         {
-            String secretKey = "null"; //
+            String secretKey = "null"; // TODO: add secret key public key matching from database
             String nakedBody = requestNode.findValue("body").asText();
-            if(hashBody.equals(CoreCrypto.sha1(secretKey + nakedBody)))
+            if(hashBody.equals(CoreCrypto.hmacSha1(nakedBody, secretKey)))
             {
                 //Login verified, process body
                 return ok();

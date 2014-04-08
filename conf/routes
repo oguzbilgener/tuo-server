@@ -5,13 +5,14 @@
 # Version 1.0
 
 #authentication
-GET     /                           controllers.v1.Application.index()
+GET     /                                       controllers.v1.Application.index()
 
-GET     /v1                           controllers.v1.Application.index()
-GET     /v1/                           controllers.v1.Application.index()
+GET     /v1                                     controllers.v1.Application.index()
+GET     /v1/                                    controllers.v1.Application.index()
 
 POST    /v1/auth/login                          controllers.v1.Auth.login()
-POST    /v1/verify      controllers.v1.Auth.verify(public_key: String,hash_body: String)
+POST    /v1/verify                              controllers.v1.Auth.verify(public_key: String,hash_body: String)
+GET     /v1/verify                              controllers.v1.Application.index()
 # home
 
 # Map static resources from the /public folder to the /assets URL path
