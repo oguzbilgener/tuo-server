@@ -44,7 +44,7 @@ public class Auth extends Controller
         }
     }
 
-    public static Result verify(long public_key, String hashBody)
+    public static Result verify(String public_key, String hashBody)
     {
 
         JsonNode requestNode = request().body().asJson();
