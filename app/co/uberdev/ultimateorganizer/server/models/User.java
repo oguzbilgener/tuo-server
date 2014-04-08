@@ -9,7 +9,17 @@ import co.uberdev.ultimateorganizer.core.CoreUser;
  */
 public class User extends CoreUser implements CoreStorable
 {
+    protected long id;
+
     protected static final String PASSWORD_SALT = "Ap-Fej-Faigs-Ad-E";
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public void hashPassword()
     {
