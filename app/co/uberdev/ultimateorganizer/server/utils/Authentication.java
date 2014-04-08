@@ -1,6 +1,7 @@
-package co.uberdev.ultimateorganizer.server.models;
+package co.uberdev.ultimateorganizer.server.utils;
 
 import co.uberdev.ultimateorganizer.core.CoreCrypto;
+import co.uberdev.ultimateorganizer.server.models.User;
 
 public class Authentication
 {

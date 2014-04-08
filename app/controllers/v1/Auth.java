@@ -1,11 +1,8 @@
 package controllers.v1;
 
-import co.uberdev.ultimateorganizer.core.CoreCrypto;
-import co.uberdev.ultimateorganizer.core.CoreTask;
-import co.uberdev.ultimateorganizer.server.models.Authentication;
+import co.uberdev.ultimateorganizer.server.utils.Authentication;
 import co.uberdev.ultimateorganizer.server.models.User;
 import com.fasterxml.jackson.databind.JsonNode;
-import play.*;
 import play.mvc.*;
 
 public class Auth extends Controller
