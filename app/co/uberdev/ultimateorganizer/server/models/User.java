@@ -10,6 +10,7 @@ import co.uberdev.ultimateorganizer.core.CoreUser;
 public class User extends CoreUser implements CoreStorable
 {
     protected long id;
+    protected String secretToken;
 
     protected static final String PASSWORD_SALT = "Ap-Fej-Faigs-Ad-E";
 
@@ -19,6 +20,14 @@ public class User extends CoreUser implements CoreStorable
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getSecretToken() {
+        return secretToken;
+    }
+
+    public void setSecretToken(String secretToken) {
+        this.secretToken = secretToken;
     }
 
     public void hashPassword()
@@ -49,5 +58,13 @@ public class User extends CoreUser implements CoreStorable
     @Override
     public boolean remove() {
         return false;
+    }
+
+    public static User fromPublicKey(String publicKey)
+    {
+        User aUser = new User();
+        aUser.setSecretToken("lelsecret");
+        aUser.setId(((int)Math.random()*100));
+        return aUser;
     }
 }

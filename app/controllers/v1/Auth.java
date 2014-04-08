@@ -2,6 +2,7 @@ package controllers.v1;
 
 import co.uberdev.ultimateorganizer.core.CoreCrypto;
 import co.uberdev.ultimateorganizer.core.CoreTask;
+import co.uberdev.ultimateorganizer.server.models.Authentication;
 import co.uberdev.ultimateorganizer.server.models.User;
 import com.fasterxml.jackson.databind.JsonNode;
 import play.*;
@@ -25,7 +26,7 @@ public class Auth extends Controller
             loginUser.hashPassword();
 
 
-            // TODO: hmac-sha1 ile request body'i hashleyerek gonderilmis hash ile kiyasla.
+
             if(loginUser.tryLogin())
             {
                 // basarili login
@@ -44,19 +45,15 @@ public class Auth extends Controller
         }
     }
 
-    public static Result verify(String public_key, String hashBody)
+    public static Result verify(String publicKey, String hashBody)
     {
-
-        JsonNode requestNode = request().body().asJson();
 
         try
         {
-            String secretKey = "null"; // TODO: add secret key public key matching from database
-            String nakedBody = requestNode.findValue("body").asText();
-            if(hashBody.equals(CoreCrypto.hmacSha1(nakedBody, secretKey)))
+            User verifiedUser = Authentication.getAuthenticatedUser(publicKey, hashBody, request().body().asText());
+            if(verifiedUser != null)
             {
-                //Login verified, process body
-                return ok();
+                return ok(verifiedUser.asJsonString());
             }else
             {
                 return unauthorized();
