@@ -42,6 +42,12 @@ public class User extends CoreUser implements CoreStorable
         this.id = id;
     }
 
+    public void setPassword(String password)
+    {
+        this.password = password;
+        hashPassword();
+    }
+
     public String getSecretToken() {
         return secretToken;
     }
