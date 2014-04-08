@@ -16,6 +16,11 @@ public class User extends CoreUser implements CoreStorable
         passwordHashed = CoreCrypto.sha1(PASSWORD_SALT + password);
     }
 
+    public boolean tryLogin()
+    {
+        return false;
+    }
+
     @Override
     public String getTableName() {
         return "users";
