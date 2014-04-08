@@ -37,6 +37,7 @@ public class Users extends CoreUsers implements CoreSelectable
     @Override
     public boolean loadFromDb(String sqlCriteria, int limit) {
 
+        // TODO: fix. This probably does not work:
         try {
             int n = 1;
             String loadSql = "SELECT * FROM "+getTableName();

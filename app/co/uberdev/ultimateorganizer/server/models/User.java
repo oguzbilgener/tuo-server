@@ -85,6 +85,7 @@ public class User extends CoreUser implements CoreStorable
 
     public static User fromPublicKey(String publicKey)
     {
+        // TODO: fix. This probably does not work:
         Users users = new Users();
         users.loadFromDb("public_key='"+publicKey+"'", 0);
         if(users.size() > 0)
