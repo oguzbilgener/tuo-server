@@ -1,5 +1,6 @@
 package controllers.v1;
 
+import co.uberdev.ultimateorganizer.core.CoreCrypto;
 import co.uberdev.ultimateorganizer.core.CoreTask;
 import co.uberdev.ultimateorganizer.server.models.User;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -38,6 +39,30 @@ public class Auth extends Controller
             }
         }
         catch (Exception e)
+        {
+            return badRequest();
+        }
+    }
+
+    public static Result verify(long public_key, String hashBody)
+    {
+
+        JsonNode requestNode = request().body().asJson();
+
+        try
+        {
+            String secretKey = "null"; //
+            String nakedBody = requestNode.findValue("body").asText();
+            if(hashBody.equals(CoreCrypto.sha1(secretKey + nakedBody)))
+            {
+                //Login verified, process body
+                return ok();
+            }else
+            {
+                return unauthorized();
+            }
+        }
+        catch(Exception e)
         {
             return badRequest();
         }
