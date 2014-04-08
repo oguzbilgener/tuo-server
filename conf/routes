@@ -5,6 +5,7 @@
 # Version 1.0
 
 #authentication
+GET     /                           controllers.v1.Application.index()
 GET     /v1                           controllers.v1.Application.index()
 GET     /v1/auth/login                controllers.v1.Auth.login()
 #POST     /v1/auth/login                controllers.v1.Auth.login()
