@@ -14,7 +14,19 @@ public class Users extends CoreUser implements CoreSelectable
     }
 
     @Override
+    public boolean loadFromDb() {
+        return loadFromDb(null, 0);
+    }
+
+    @Override
     public boolean loadFromDb(int limit) {
+        return loadFromDb(null, limit);
+    }
+
+    @Override
+    public boolean loadFromDb(String sqlCriteria, int limit) {
         return false;
     }
+
+
 }
