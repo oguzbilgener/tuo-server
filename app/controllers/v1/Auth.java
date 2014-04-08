@@ -23,11 +23,11 @@ public class Auth extends Controller
         {
             return badRequest();
         }
+    }
 
-
-
-
-//        return ok("Hello world.");
+    public static Result register()
+    {
+        return ok("reg");
     }
 
 }
