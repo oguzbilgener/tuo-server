@@ -7,7 +7,7 @@
 #authentication
 GET     /v1                           controllers.v1.Application.index()
 GET     /v1/auth/login                controllers.v1.Auth.login()
-POST     /v1/auth/login                controllers.v1.Auth.login()
+#POST     /v1/auth/login                controllers.v1.Auth.login()
 #POST     /1/auth/login/                controllers.v1.Auth.login()
 
 # home
