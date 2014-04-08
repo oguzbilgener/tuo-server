@@ -14,6 +14,26 @@ public class User extends CoreUser implements CoreStorable
 
     protected static final String PASSWORD_SALT = "Ap-Fej-Faigs-Ad-E";
 
+    /**
+     * Empty constructor
+     */
+    public User()
+    {
+
+    }
+
+    /**
+     * Constructor for user login
+     * @param emailAddress
+     * @param password
+     */
+    public User(String emailAddress, String password)
+    {
+        this.emailAddress = emailAddress;
+        this.password = password;
+        hashPassword();
+    }
+
     public long getId() {
         return id;
     }
@@ -35,6 +55,10 @@ public class User extends CoreUser implements CoreStorable
         passwordHashed = CoreCrypto.sha1(PASSWORD_SALT + password);
     }
 
+    /**
+     * Using Users class, connects to database and finds out if login is possible
+     * @return
+     */
     public boolean tryLogin()
     {
         return false;
