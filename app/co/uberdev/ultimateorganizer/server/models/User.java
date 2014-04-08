@@ -58,6 +58,8 @@ public class User extends CoreUser implements CoreStorable
      */
     public boolean tryLogin()
     {
+        // TODO: connect to database and see if the given username and password of this User matches a user.
+        // Then load all the retrieved data to self
         return false;
     }
 
@@ -83,9 +85,12 @@ public class User extends CoreUser implements CoreStorable
 
     public static User fromPublicKey(String publicKey)
     {
-        User aUser = new User();
-        aUser.setSecretToken("lelsecret");
-        aUser.setId(((int)Math.random()*100));
-        return aUser;
+        Users users = new Users();
+        users.loadFromDb("public_key='"+publicKey+"'", 0);
+        if(users.size() > 0)
+        {
+            return users.get(0);
+        }
+        return null;
     }
 }

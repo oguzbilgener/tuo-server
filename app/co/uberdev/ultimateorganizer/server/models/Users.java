@@ -13,6 +13,11 @@ import java.sql.SQLException;
  */
 public class Users extends CoreUsers implements CoreSelectable
 {
+    public User get(int index)
+    {
+        return (User) get(index);
+    }
+
     @Override
     public String getTableName() {
         return "users";
