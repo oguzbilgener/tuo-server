@@ -13,7 +13,7 @@ public class Application extends Controller
         CoreTask task = new CoreTask();
 
    
-        return ok("Hello world. asdasdasd");
+        return ok("Hello world. lolo");
     }
 
 }
