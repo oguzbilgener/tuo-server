@@ -2,10 +2,10 @@
 
 create table users (
     id serial primary key,
-    email_address varchar(255), not null unique,
-    password_hashed varchar(255), not null,
-    first_name varchar(255),
-    last_name varchar(255),
+    email_address varchar(255) not null unique,
+    password_hashed varchar(255) not null,
+    first_name varchar(255)
+    last_name varchar(255)
     public_key varchar(255) not null unique,
     secret_token varchar(255) not null unique,
     reset_key varchar(255),
