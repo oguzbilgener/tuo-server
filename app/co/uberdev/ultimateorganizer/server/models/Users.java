@@ -73,6 +73,14 @@ public class Users extends CoreUsers implements CoreSelectable
                 user.setPublicKey(set.getString(CoreDataRules.columns.users.publicKey));
                 user.setSecretToken(set.getString(CoreDataRules.columns.users.secretToken));
                 user.setState(set.getInt(CoreDataRules.columns.users.state));
+                user.setResetKey(set.getString(CoreDataRules.columns.users.resetKey));
+                user.setResetDue(set.getInt(CoreDataRules.columns.users.resetDue));
+                user.setCreated(set.getInt(CoreDataRules.columns.users.created));
+                user.setBirthday(set.getInt(CoreDataRules.columns.users.birthday));
+                user.setSchoolName(set.getString(CoreDataRules.columns.users.schoolName));
+                user.setDepartmentName(set.getString(CoreDataRules.columns.users.departmentName));
+
+                // TODO: set devices
 
                 add(user);
             }
