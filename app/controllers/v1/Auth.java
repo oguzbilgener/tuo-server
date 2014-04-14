@@ -3,6 +3,7 @@ package controllers.v1;
 import co.uberdev.ultimateorganizer.server.utils.Authentication;
 import co.uberdev.ultimateorganizer.server.models.User;
 import com.fasterxml.jackson.databind.JsonNode;
+import play.Logger;
 import play.mvc.*;
 
 public class Auth extends Controller
@@ -39,6 +40,7 @@ public class Auth extends Controller
         catch (Exception e)
         {
             // The json body does not contain these parameters. 400 Bad request!
+            Logger.error(e.toString());
             e.printStackTrace();
             return badRequest(e.toString() + " | " + requestNode.toString());
         }
