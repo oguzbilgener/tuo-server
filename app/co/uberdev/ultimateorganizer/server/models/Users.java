@@ -50,9 +50,12 @@ public class Users extends CoreUsers implements CoreSelectable
                 loadSql += " WHERE "+sqlCriteria;
             }
             PreparedStatement loadStatement = DB.getConnection().prepareStatement(loadSql);
-            for(String param : params)
+            if(params != null)
             {
-                loadStatement.setString(n++, param);
+                for(String param : params)
+                {
+                    loadStatement.setString(n++, param);
+                }
             }
 
             ResultSet set = loadStatement.getResultSet();

@@ -17,7 +17,7 @@ public class Tasks extends CoreTasks implements CoreSelectable
     }
 
     @Override
-    public boolean loadFromDb(String sqlCriteria, int limit)
+    public boolean loadFromDb(String sqlCriteria, String[] params, int limit)
     {
         return false;
     }
