@@ -1,5 +1,6 @@
 package co.uberdev.ultimateorganizer.server.models;
 
+import co.uberdev.ultimateorganizer.core.CoreDataRules;
 import co.uberdev.ultimateorganizer.core.CoreStorable;
 import co.uberdev.ultimateorganizer.core.CoreTask;
 
@@ -15,22 +16,26 @@ public class Task extends CoreTask implements CoreStorable
     }
 
     @Override
-    public String getTableName() {
-        return null;
+    public String getTableName()
+    {
+        return CoreDataRules.tasks.tasks;
     }
 
     @Override
-    public boolean insert() {
+    public boolean insert()
+    {
         return false;
     }
 
     @Override
-    public boolean update() {
+    public boolean update()
+    {
         return false;
     }
 
     @Override
-    public boolean remove() {
+    public boolean remove()
+    {
         return false;
     }
 }

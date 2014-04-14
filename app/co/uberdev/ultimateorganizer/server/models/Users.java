@@ -1,5 +1,6 @@
 package co.uberdev.ultimateorganizer.server.models;
 
+import co.uberdev.ultimateorganizer.core.CoreDataRules;
 import co.uberdev.ultimateorganizer.core.CoreSelectable;
 import co.uberdev.ultimateorganizer.core.CoreUsers;
 import play.db.DB;
@@ -19,23 +20,27 @@ public class Users extends CoreUsers implements CoreSelectable
     }
 
     @Override
-    public String getTableName() {
-        return "users";
+    public String getTableName()
+    {
+        return CoreDataRules.tables.users;
     }
 
     @Override
-    public boolean loadFromDb() {
+    public boolean loadFromDb()
+    {
         return loadFromDb(null, 0);
     }
 
     @Override
-    public boolean loadFromDb(int limit) {
+    public boolean loadFromDb(int limit)
+    {
         return loadFromDb(null, limit);
     }
 
     // TODO: use limit
     @Override
-    public boolean loadFromDb(String sqlCriteria, int limit) {
+    public boolean loadFromDb(String sqlCriteria, int limit)
+    {
 
         // TODO: fix. This probably does not work:
         try {
