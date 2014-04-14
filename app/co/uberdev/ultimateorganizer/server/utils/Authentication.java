@@ -9,7 +9,10 @@ public class Authentication
     {
         User relatedUser = User.fromPublicKey(publicKey);
 
-        if(relatedUser == null || relatedUser.getId() <= 0)
+        // There must exist a related user with given public key.
+        // Moreover, the request body text must not be empty or null
+        if(relatedUser == null || relatedUser.getId() <= 0
+            || requestBodyText == null || requestBodyText.length() == 0 )
         {
             return null;
         }
