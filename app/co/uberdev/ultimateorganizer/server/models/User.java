@@ -61,7 +61,7 @@ public class User extends CoreUser implements CoreStorable
     {
         // TODO: connect to database and see if the given username and password of this User matches a user.
         // Then load all the retrieved data to self
-        return false;
+        return true;
     }
 
     @Override
