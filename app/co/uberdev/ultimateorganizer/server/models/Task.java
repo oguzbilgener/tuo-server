@@ -18,7 +18,7 @@ public class Task extends CoreTask implements CoreStorable
     @Override
     public String getTableName()
     {
-        return CoreDataRules.tasks.tasks;
+        return CoreDataRules.tables.tasks;
     }
 
     @Override
