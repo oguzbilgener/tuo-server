@@ -28,13 +28,13 @@ public class Users extends CoreUsers implements CoreSelectable
     @Override
     public boolean loadFromDb()
     {
-        return loadFromDb(null, 0);
+        return loadFromDb(null, new String[] {}, 0);
     }
 
     @Override
     public boolean loadFromDb(int limit)
     {
-        return loadFromDb(null, limit);
+        return loadFromDb(null, new String[] {}, limit);
     }
 
     // TODO: use limit
