@@ -20,4 +20,4 @@ create table users (
 
 GRANT USAGE, SELECT ON SEQUENCE users_id_seq TO tuo_server_u;
 
-create index users_auth_index on users (public_token, secret_key);
+create index users_auth_index on users (public_key, secret_token);
