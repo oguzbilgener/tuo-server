@@ -64,7 +64,7 @@ public class Users extends CoreUsers implements CoreSelectable
                 // TODO: complete here for User class
                 // use database column names
                 User user = new User();
-                user.setId(set.getInt("id"));
+                user.setId(set.getInt(CoreDataRules.columns.users.id));
                 user.setEmailAddress(set.getString(CoreDataRules.columns.users.emailAddress));
                 user.setPasswordHashed(set.getString(CoreDataRules.columns.users.passwordHashed));
                 user.setFirstName(set.getString(CoreDataRules.columns.users.firstName));

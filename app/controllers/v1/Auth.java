@@ -39,7 +39,7 @@ public class Auth extends Controller
         catch (Exception e)
         {
             // The json body does not contain these parameters. 400 Bad request!
-            return badRequest();
+            return badRequest(requestNode);
         }
     }
 
