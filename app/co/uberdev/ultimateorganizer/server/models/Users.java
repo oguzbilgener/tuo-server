@@ -39,7 +39,7 @@ public class Users extends CoreUsers implements CoreSelectable
 
     // TODO: use limit
     @Override
-    public boolean loadFromDb(String sqlCriteria, int limit)
+    public boolean loadFromDb(String sqlCriteria, String[] params, int limit)
     {
 
         // TODO: fix. This probably does not work:
@@ -47,10 +47,14 @@ public class Users extends CoreUsers implements CoreSelectable
             int n = 1;
             String loadSql = "SELECT * FROM "+getTableName();
             if(sqlCriteria != null) {
-                loadSql += " WHERE ?";
+                loadSql += " WHERE "+sqlCriteria;
             }
             PreparedStatement loadStatement = DB.getConnection().prepareStatement(loadSql);
-            loadStatement.setString(n++, sqlCriteria);
+            for(String param : params)
+            {
+                loadStatement.setString(n++, param);
+            }
+
             ResultSet set = loadStatement.getResultSet();
 
             while(set.next())
@@ -59,11 +63,13 @@ public class Users extends CoreUsers implements CoreSelectable
                 // use database column names
                 User user = new User();
                 user.setId(set.getInt("id"));
-                user.setEmailAddress(set.getString("email_address"));
-                user.setPasswordHashed(set.getString("passwd"));
-                user.setFirstName(set.getString("first_name"));
-                user.setLastName(set.getString("last_name"));
-                user.setPublicKey(set.getString("public_key"));
+                user.setEmailAddress(set.getString(CoreDataRules.columns.users.emailAddress));
+                user.setPasswordHashed(set.getString(CoreDataRules.columns.users.passwordHashed));
+                user.setFirstName(set.getString(CoreDataRules.columns.users.firstName));
+                user.setLastName(set.getString(CoreDataRules.columns.users.lastName));
+                user.setPublicKey(set.getString(CoreDataRules.columns.users.publicKey));
+                user.setSecretToken(set.getString(CoreDataRules.columns.users.secretToken));
+                user.setState(set.getInt(CoreDataRules.columns.users.state));
 
                 add(user);
             }

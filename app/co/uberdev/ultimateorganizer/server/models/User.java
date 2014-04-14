@@ -5,6 +5,8 @@ import co.uberdev.ultimateorganizer.core.CoreDataRules;
 import co.uberdev.ultimateorganizer.core.CoreStorable;
 import co.uberdev.ultimateorganizer.core.CoreUser;
 
+import java.lang.reflect.Field;
+
 /**
  * Created by oguzbilgener on 08/04/14.
  */
@@ -61,7 +63,26 @@ public class User extends CoreUser implements CoreStorable
     {
         // TODO: connect to database and see if the given username and password of this User matches a user.
         // Then load all the retrieved data to self
-        return true;
+        Users matchingUsers = new Users();
+        matchingUsers.loadFromDb(CoreDataRules.columns.users.emailAddress + "= ? AND "+CoreDataRules.columns.users.passwordHashed + " = ? ", new String[] { emailAddress, passwordHashed }, 1);
+        if(matchingUsers.size() > 0)
+        {
+            User matchingUser = matchingUsers.get(0);
+            if(matchingUser.getState() == User.STATE_BANNED)
+                return false;
+
+            // set the parameters from matching user
+            set(matchingUser);
+            setPassword(null);
+
+            return true;
+        }
+        return false;
+    }
+
+    public boolean register()
+    {
+        return false;
     }
 
     @Override
@@ -92,11 +113,36 @@ public class User extends CoreUser implements CoreStorable
     {
         // TODO: fix. This probably does not work:
         Users users = new Users();
-        users.loadFromDb("public_key='"+publicKey+"'", 0);
+        users.loadFromDb("public_key = ?", new String[] { publicKey}, 0);
         if(users.size() > 0)
         {
             return users.get(0);
         }
         return null;
     }
+
+    /**
+     * sets the user itself from given user parameter
+     * Keep an eye on this method. If new attributes are added to User or CoreUser class, this method should be updated as well
+     * @param user
+     */
+    public void set(User user)
+    {
+        setId(user.getId());
+        setEmailAddress(user.getEmailAddress());
+        setPassword(user.getPassword());
+        setPasswordHashed(user.getPasswordHashed());
+        setFirstName(user.getFirstName());
+        setLastName(user.getLastName());
+        setPublicKey(user.getPublicKey());
+        setSecretToken(user.getSecretToken());
+        setResetKey(user.getResetKey());
+        setResetDue(user.getResetDue());
+        setDevices(user.getDevices());
+        setSchoolName(user.getSchoolName());
+        setDepartmentName(user.getDepartmentName());
+        setCreated(user.getCreated());
+        setBirthday(user.getBirthday());
+    }
+
 }

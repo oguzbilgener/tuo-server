@@ -12,32 +12,33 @@ public class Auth extends Controller
     {
         JsonNode requestNode = request().body().asJson();
 
+        // Required parameters for login: email (String) & password (String)
         try
         {
+            // try to get those parameters from json body
             String userEmail = requestNode.findValue("email").asText();
             String userPassword = requestNode.findValue("password").asText();
 
             User loginUser = new User();
             loginUser.setEmailAddress(userEmail);
             loginUser.setPassword(userPassword);
-            loginUser.hashPassword();
-
-
 
             if(loginUser.tryLogin())
             {
-                // basarili login
-                // verileri cevap olarak ilet
-                return ok("hello "+userEmail+", "+userPassword);
+                // remove user's unencrypted password for security reasons
+                loginUser.setPassword("");
+                // Successful login. return user details, including secret token and public key
+                return ok(loginUser.toString());
             }
             else
             {
-                // basarisiz login
+                // unsuccessful login. 401 Unauthorized!
                 return unauthorized();
             }
         }
         catch (Exception e)
         {
+            // The json body does not contain these parameters. 400 Bad request!
             return badRequest();
         }
     }
@@ -64,7 +65,16 @@ public class Auth extends Controller
 
     public static Result register()
     {
-        return ok("reg");
+        JsonNode requestNode = request().body().asJson();
+        try
+        {
+
+        }
+        catch(Exception e)
+        {
+
+        }
+        return null;
     }
 
 }
