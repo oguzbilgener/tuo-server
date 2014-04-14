@@ -59,7 +59,7 @@ public class Users extends CoreUsers implements CoreSelectable
 
             ResultSet set = loadStatement.getResultSet();
 
-            while(set.next())
+            while(set != null && set.next())
             {
                 // TODO: complete here for User class
                 // use database column names
