@@ -1,3 +1,5 @@
+-- database: tuo_server_pg
+
 create table users (
     id serial primary key,
     email_address varchar(255), not null unique,
@@ -5,7 +7,7 @@ create table users (
     first_name varchar(255),
     last_name varchar(255),
     public_key varchar(255) not null unique,
-    secret_token varchar(255), not null unique,
+    secret_token varchar(255) not null unique,
     reset_key varchar(255),
     reset_due int,
     state smallint,
@@ -18,4 +20,4 @@ create table users (
 
 GRANT USAGE, SELECT ON SEQUENCE users_id_seq TO tuo_server_u;
 
-create index auth_index on users using public_token, secret_key;
+create index users_auth_index on users (public_token, secret_key);
