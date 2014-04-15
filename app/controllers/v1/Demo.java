@@ -1,6 +1,7 @@
 package controllers.v1;
 
 import co.uberdev.ultimateorganizer.core.CoreTask;
+import co.uberdev.ultimateorganizer.core.CoreUtils;
 import co.uberdev.ultimateorganizer.server.models.User;
 import play.*;
 import play.mvc.*;
@@ -18,7 +19,7 @@ public class Demo extends Controller
         myUser.setFirstName("Ata Ali");
         myUser.setLastName("Kilicli");
         myUser.setPassword("123456");
-        myUser.setBirthday(new Date());
+        myUser.setBirthday(CoreUtils.getUnixTimestamp());
 
         String strUser = myUser.asJsonString();
 
