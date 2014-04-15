@@ -5,6 +5,8 @@ import co.uberdev.ultimateorganizer.server.models.User;
 import play.*;
 import play.mvc.*;
 
+import java.util.Date;
+
 public class Demo extends Controller
 {
 
@@ -16,6 +18,7 @@ public class Demo extends Controller
         myUser.setFirstName("Ata Ali");
         myUser.setLastName("Kilicli");
         myUser.setPassword("123456");
+        myUser.setBirthday(new Date());
 
         String strUser = myUser.asJsonString();
 
