@@ -8,6 +8,7 @@ import play.db.DB;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 /**
  * Created by oguzbilgener on 08/04/14.
@@ -74,8 +75,8 @@ public class Users extends CoreUsers implements CoreSelectable
                 user.setState(set.getInt(CoreDataRules.columns.users.state));
                 user.setResetKey(set.getString(CoreDataRules.columns.users.resetKey));
                 user.setResetDue(set.getInt(CoreDataRules.columns.users.resetDue));
-                user.setCreated(set.getInt(CoreDataRules.columns.users.created));
-                user.setBirthday(set.getInt(CoreDataRules.columns.users.birthday));
+                user.setCreated(new Date(set.getInt(CoreDataRules.columns.users.created)));
+                user.setBirthday(new Date(set.getInt(CoreDataRules.columns.users.birthday)));
                 user.setSchoolName(set.getString(CoreDataRules.columns.users.schoolName));
                 user.setDepartmentName(set.getString(CoreDataRules.columns.users.departmentName));
 
