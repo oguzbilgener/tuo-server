@@ -1,11 +1,12 @@
 package co.uberdev.ultimateorganizer.server.models;
 
-import co.uberdev.ultimateorganizer.core.CoreCrypto;
-import co.uberdev.ultimateorganizer.core.CoreDataRules;
-import co.uberdev.ultimateorganizer.core.CoreStorable;
-import co.uberdev.ultimateorganizer.core.CoreUser;
+import co.uberdev.ultimateorganizer.core.*;
+import co.uberdev.ultimateorganizer.server.utils.Validation;
+import play.db.DB;
 
 import java.lang.reflect.Field;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 /**
  * Created by oguzbilgener on 08/04/14.
@@ -14,6 +15,8 @@ public class User extends CoreUser implements CoreStorable
 {
     protected long id;
 
+    protected static final String PUBLIC_KEY_SALT = "im-yiJ-iC-Wyn-Ya";
+    protected static final String SECRET_TOKEN_SALT = "yiV-Vet-Dej-kaj-";
     protected static final String PASSWORD_SALT = "Ap-Fej-Faigs-Ad-E";
 
     /**
@@ -80,8 +83,19 @@ public class User extends CoreUser implements CoreStorable
         return false;
     }
 
-    public boolean register()
+    public boolean register() throws Validation.BadInputException
     {
+        if(Validation.validateUser(this))
+        {
+            this.setCreated(CoreUtils.getUnixTimestamp());
+            this.setPublicKey(CoreUtils.generatePublicKey(this.emailAddress, PUBLIC_KEY_SALT));
+            this.setSecretToken(CoreUtils.generateSecretToken(this.emailAddress, this.password, SECRET_TOKEN_SALT));
+
+            if(insert())
+            {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -94,6 +108,36 @@ public class User extends CoreUser implements CoreStorable
     @Override
     public boolean insert()
     {
+        try
+        {
+            int n = 2;
+            String insertSql = "INSERT INTO "+getTableName()+" " +
+            CoreDataRules.columns.users.id+", "+
+            CoreDataRules.columns.users.emailAddress+", "+
+            CoreDataRules.columns.users.passwordHashed+", "+
+            CoreDataRules.columns.users.firstName+", "+
+            CoreDataRules.columns.users.lastName+", "+
+            CoreDataRules.columns.users.lastName+", "+
+            CoreDataRules.columns.users.publicKey+", "+
+            CoreDataRules.columns.users.secretToken+", "+
+            CoreDataRules.columns.users.state+", "+
+            CoreDataRules.columns.users.resetKey+", "+
+            CoreDataRules.columns.users.resetDue+", "+
+            CoreDataRules.columns.users.schoolName+", "+
+            CoreDataRules.columns.users.departmentName+", "+
+            CoreDataRules.columns.users.created+", "+
+            CoreDataRules.columns.users.birthday+", "+
+            ") VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            PreparedStatement insertStatement = DB.getConnection().prepareStatement(insertSql);
+            insertStatement.setString(n++, getEmailAddress());
+            // ....
+            return true;
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
         return false;
     }
 
@@ -113,7 +157,18 @@ public class User extends CoreUser implements CoreStorable
     {
         // TODO: fix. This probably does not work:
         Users users = new Users();
-        users.loadFromDb("public_key = ?", new String[] { publicKey}, 0);
+        users.loadFromDb(CoreDataRules.columns.users.publicKey + " = ?", new String[] { publicKey }, 0);
+        if(users.size() > 0)
+        {
+            return users.get(0);
+        }
+        return null;
+    }
+
+    public static User fromEmail(String emailAddress)
+    {
+        Users users = new Users();
+        users.loadFromDb(CoreDataRules.columns.users.emailAddress + " = ?", new String[] { emailAddress}, 0);
         if(users.size() > 0)
         {
             return users.get(0);

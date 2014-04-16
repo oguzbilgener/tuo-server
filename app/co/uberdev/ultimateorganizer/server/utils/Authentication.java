@@ -7,6 +7,7 @@ public class Authentication
 {
     public static User getAuthenticatedUser(String publicKey, String verification, String requestBodyText)
     {
+        // Connect to database and get the related user from public key
         User relatedUser = User.fromPublicKey(publicKey);
 
         // There must exist a related user with given public key.

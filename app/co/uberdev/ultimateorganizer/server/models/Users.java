@@ -54,6 +54,7 @@ public class Users extends CoreUsers implements CoreSelectable
             {
                 for(String param : params)
                 {
+                    // TODO: test for non-string types
                     loadStatement.setString(n++, param);
                 }
             }

@@ -1,5 +1,6 @@
 package controllers.v1;
 
+import co.uberdev.ultimateorganizer.core.CoreJSON;
 import co.uberdev.ultimateorganizer.core.CoreTask;
 import co.uberdev.ultimateorganizer.core.CoreUtils;
 import co.uberdev.ultimateorganizer.server.models.User;
@@ -24,6 +25,10 @@ public class Demo extends Controller
         String strUser = myUser.asJsonString();
 
         User backUser = User.fromJson(strUser, User.class);
+
+        CoreJSON json = new CoreJSON();
+        json.put("asd", "asd");
+        String x = json.getAsJsonString();
 
 
         return ok("this user is "+backUser.asJsonString());
