@@ -84,6 +84,7 @@ public class Auth extends Controller
             {
                 //
                 registerUser.setPassword("");
+                return ok(registerUser.toString());
             }
         }
         catch(Validation.BadInputException e)

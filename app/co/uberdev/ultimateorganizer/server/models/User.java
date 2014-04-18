@@ -117,7 +117,6 @@ public class User extends CoreUser implements CoreStorable
             CoreDataRules.columns.users.passwordHashed+", "+
             CoreDataRules.columns.users.firstName+", "+
             CoreDataRules.columns.users.lastName+", "+
-            CoreDataRules.columns.users.lastName+", "+
             CoreDataRules.columns.users.publicKey+", "+
             CoreDataRules.columns.users.secretToken+", "+
             CoreDataRules.columns.users.state+", "+
@@ -127,12 +126,24 @@ public class User extends CoreUser implements CoreStorable
             CoreDataRules.columns.users.departmentName+", "+
             CoreDataRules.columns.users.created+", "+
             CoreDataRules.columns.users.birthday+", "+
-            ") VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            ") VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             PreparedStatement insertStatement = DB.getConnection().prepareStatement(insertSql);
             insertStatement.setString(n++, getEmailAddress());
-            // ....
-            return true;
+            insertStatement.setString(n++, getPasswordHashed());
+            insertStatement.setString(n++, getFirstName());
+            insertStatement.setString(n++, getLastName());
+            insertStatement.setString(n++, getPublicKey());
+            insertStatement.setString(n++, getSecretToken());
+            insertStatement.setInt(n++, getState());
+            insertStatement.setString(n++, getResetKey());
+            insertStatement.setInt(n++, getResetDue());
+            insertStatement.setString(n++, getSchoolName());
+            insertStatement.setString(n++, getDepartmentName());
+            insertStatement.setInt(n++, getCreated());
+            insertStatement.setInt(n++, getBirthday());
+
+            return insertStatement.execute();
         }
         catch (SQLException e)
         {
