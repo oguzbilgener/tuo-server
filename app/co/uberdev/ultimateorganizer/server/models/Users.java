@@ -44,7 +44,7 @@ public class Users extends CoreUsers implements CoreSelectable
     {
 
         try {
-            int n = 0;
+            int n = 1;
             String loadSql = "SELECT * FROM "+getTableName();
             if(sqlCriteria != null) {
                 loadSql += " WHERE "+sqlCriteria;
