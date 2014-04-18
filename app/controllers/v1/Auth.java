@@ -82,6 +82,7 @@ public class Auth extends Controller
             registerUser.setLastName(lastName);
             registerUser.setSchoolName(schoolName);
             registerUser.setDepartmentName(departmentName);
+            registerUser.setBirthday(birthday);
 
             // try register, go through validation
             if(registerUser.register())
