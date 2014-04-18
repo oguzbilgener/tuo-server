@@ -8,6 +8,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import play.Logger;
 import play.mvc.*;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 public class Auth extends Controller
 {
     /**
@@ -97,7 +100,10 @@ public class Auth extends Controller
         }
         catch(Exception e)
         {
-            return internalServerError(e.toString());
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            e.printStackTrace(pw);
+            return internalServerError(e.toString() + "\n" + sw.toString());
         }
     }
 
