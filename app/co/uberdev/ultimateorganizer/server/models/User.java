@@ -125,7 +125,7 @@ public class User extends CoreUser implements CoreStorable
             CoreDataRules.columns.users.schoolName+", "+
             CoreDataRules.columns.users.departmentName+", "+
             CoreDataRules.columns.users.created+", "+
-            CoreDataRules.columns.users.birthday+", "+
+            CoreDataRules.columns.users.birthday+" "+
             ") VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             PreparedStatement insertStatement = DB.getConnection().prepareStatement(insertSql);
