@@ -111,7 +111,7 @@ public class User extends CoreUser implements CoreStorable
         try
         {
             int n = 1;
-            String insertSql = "INSERT INTO "+getTableName()+" " +
+            String insertSql = "INSERT INTO "+getTableName()+" (" +
             CoreDataRules.columns.users.id+", "+
             CoreDataRules.columns.users.emailAddress+", "+
             CoreDataRules.columns.users.passwordHashed+", "+
