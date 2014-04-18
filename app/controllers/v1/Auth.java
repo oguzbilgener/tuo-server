@@ -86,6 +86,10 @@ public class Auth extends Controller
                 registerUser.setPassword("");
                 return ok(registerUser.toString());
             }
+            else
+            {
+                return internalServerError("could not register");
+            }
         }
         catch(Validation.BadInputException e)
         {
