@@ -1,6 +1,7 @@
 package controllers.v1;
 
 import co.uberdev.ultimateorganizer.core.CoreDataRules;
+import co.uberdev.ultimateorganizer.core.CoreUtils;
 import co.uberdev.ultimateorganizer.server.utils.Authentication;
 import co.uberdev.ultimateorganizer.server.models.User;
 import co.uberdev.ultimateorganizer.server.utils.Validation;
@@ -96,14 +97,11 @@ public class Auth extends Controller
         }
         catch(Validation.BadInputException e)
         {
-            return badRequest(e.toString());
+            return badRequest(e.toString() +"\n" + CoreUtils.getStackTrace(e));
         }
         catch(Exception e)
         {
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw);
-            e.printStackTrace(pw);
-            return internalServerError(e.toString() + "\n" + sw.toString());
+            return internalServerError(e.toString() + "\n" + CoreUtils.getStackTrace(e));
         }
     }
 

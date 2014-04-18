@@ -110,7 +110,7 @@ public class User extends CoreUser implements CoreStorable
     {
         try
         {
-            int n = 2;
+            int n = 1;
             String insertSql = "INSERT INTO "+getTableName()+" " +
             CoreDataRules.columns.users.id+", "+
             CoreDataRules.columns.users.emailAddress+", "+
@@ -147,7 +147,7 @@ public class User extends CoreUser implements CoreStorable
         }
         catch (SQLException e)
         {
-            e.printStackTrace();
+             e.printStackTrace();
         }
         return false;
     }
