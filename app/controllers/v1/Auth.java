@@ -93,9 +93,8 @@ public class Auth extends Controller
         }
         catch(Exception e)
         {
-
+            return internalServerError(e.toString());
         }
-        return null;
     }
 
     /**
