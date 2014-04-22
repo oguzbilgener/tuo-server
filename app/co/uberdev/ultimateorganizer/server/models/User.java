@@ -70,16 +70,18 @@ public class User extends CoreUser implements CoreStorable
         matchingUsers.loadFromDb(CoreDataRules.columns.users.emailAddress + "= ? AND "+CoreDataRules.columns.users.passwordHashed + " = ? ", new String[] { emailAddress, passwordHashed }, 1);
         if(matchingUsers.size() > 0)
         {
+            System.out.println("AAAA");
             User matchingUser = matchingUsers.get(0);
             if(matchingUser.getState() == User.STATE_BANNED)
                 return false;
-
+            System.out.println("BBBBB");
             // set the parameters from matching user
             set(matchingUser);
             setPassword(null);
 
             return true;
         }
+        System.out.println("CCCC");
         return false;
     }
 
