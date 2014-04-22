@@ -62,7 +62,7 @@ public class Users extends CoreUsers implements CoreSelectable
                 }
             }
 
-            ResultSet set = loadStatement.getResultSet( );
+            ResultSet set = loadStatement.executeQuery();
 
             while(set != null && set.next())
             {
