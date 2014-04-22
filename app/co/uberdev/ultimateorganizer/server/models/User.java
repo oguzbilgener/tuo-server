@@ -88,18 +88,15 @@ public class User extends CoreUser implements CoreStorable
     {
         if(Validation.validateUser(this))
         {
-            System.out.println("xxx");
             this.setCreated(CoreUtils.getUnixTimestamp());
             this.setPublicKey(CoreUtils.generatePublicKey(this.emailAddress, PUBLIC_KEY_SALT));
             this.setSecretToken(CoreUtils.generateSecretToken(this.emailAddress, this.password, SECRET_TOKEN_SALT));
 
             if(insert())
             {
-                System.out.println("yyy");
                 return true;
             }
         }
-        System.out.println("zzzz");
         return false;
     }
 
@@ -147,7 +144,8 @@ public class User extends CoreUser implements CoreStorable
             insertStatement.setInt(n++, getCreated());
             insertStatement.setInt(n++, getBirthday());
 
-            return insertStatement.execute();
+            insertStatement.execute();
+            return true;
         }
         catch (SQLException e)
         {
