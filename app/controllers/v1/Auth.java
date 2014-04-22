@@ -9,9 +9,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import play.Logger;
 import play.mvc.*;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
 public class Auth extends Controller
 {
     /**
@@ -83,6 +80,7 @@ public class Auth extends Controller
             registerUser.setSchoolName(schoolName);     
             registerUser.setDepartmentName(departmentName);
             registerUser.setBirthday(birthday);
+            registerUser.setState(User.STATE_USER);
 
             // try register, go through validation
             if(registerUser.register())
