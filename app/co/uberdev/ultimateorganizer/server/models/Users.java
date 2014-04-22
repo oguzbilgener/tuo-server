@@ -62,7 +62,7 @@ public class Users extends CoreUsers implements CoreSelectable
                 }
             }
 
-            ResultSet set = loadStatement.getResultSet();
+            ResultSet set = loadStatement.getResultSet( );
 
             while(set != null && set.next())
             {
@@ -88,12 +88,12 @@ public class Users extends CoreUsers implements CoreSelectable
 
                 add(user);
             }
+            return true;
 
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
-        return false;
     }
 
 
