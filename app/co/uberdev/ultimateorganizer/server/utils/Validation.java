@@ -39,7 +39,7 @@ public class Validation
             throw new BadInputException(CoreDataRules.fields.register.firstName, "first name is too long");
 
         if(user.getLastName().length() > CoreDataRules.LASTNAME_MAX_LENGTH)
-            throw new BadInputException(CoreDataRules.fields.register.lastName, "last name is too long");
+            throw new BadInputException(CoreDataRules.  fields.register.lastName, "last name is too long");
 
         if(user.getSchoolName() == null)
             throw new BadInputException(CoreDataRules.fields.register.schoolName, "school name is null");

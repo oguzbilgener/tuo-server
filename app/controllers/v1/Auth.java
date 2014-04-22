@@ -65,7 +65,7 @@ public class Auth extends Controller
         try
         {
             String userEmail = requestNode.findValue(CoreDataRules.fields.register.email).asText();
-            String userPassword = requestNode.findValue(CoreDataRules.fields.register.email).asText();
+            String userPassword = requestNode.findValue(CoreDataRules.fields.register.password).asText();
 
             String firstName = requestNode.findValue(CoreDataRules.fields.register.firstName).asText();
             String lastName = requestNode.findValue(CoreDataRules.fields.register.lastName).asText();
