@@ -80,7 +80,7 @@ public class Auth extends Controller
             registerUser.setPassword(userPassword);
             registerUser.setFirstName(firstName);
             registerUser.setLastName(lastName);
-            registerUser.setSchoolName(schoolName);
+            registerUser.setSchoolName(schoolName);     
             registerUser.setDepartmentName(departmentName);
             registerUser.setBirthday(birthday);
 
