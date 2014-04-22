@@ -67,6 +67,7 @@ public class User extends CoreUser implements CoreStorable
         // TODO: connect to database and see if the given username and password of this User matches a user.
         // Then load all the retrieved data to self
         Users matchingUsers = new Users();
+        System.out.println(emailAddress + " " + passwordHashed);
         matchingUsers.loadFromDb(CoreDataRules.columns.users.emailAddress + "= ? AND "+CoreDataRules.columns.users.passwordHashed + " = ? ", new String[] { emailAddress, passwordHashed }, 1);
         if(matchingUsers.size() > 0)
         {
