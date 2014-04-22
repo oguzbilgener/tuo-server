@@ -17,7 +17,7 @@ public class Users extends CoreUsers implements CoreSelectable
 {
     public User get(int index)
     {
-        return (User) get(index);
+        return (User) super.get(index);
     }
 
     @Override
@@ -49,9 +49,7 @@ public class Users extends CoreUsers implements CoreSelectable
             if(sqlCriteria != null) {
                 loadSql += " WHERE "+sqlCriteria;
             }
-            System.out.println("------------------");
-            System.out.println(loadSql);
-            System.out.println("------------------");
+
             PreparedStatement loadStatement = DB.getConnection().prepareStatement(loadSql);
             if(params != null)
             {
