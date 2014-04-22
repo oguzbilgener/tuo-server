@@ -64,7 +64,6 @@ public class Users extends CoreUsers implements CoreSelectable
 
             while(set != null && set.next())
             {
-                System.out.println(set.getInt(CoreDataRules.columns.users.id));
                 // TODO: complete here for User class
                 // use database column names
                 User user = new User();
