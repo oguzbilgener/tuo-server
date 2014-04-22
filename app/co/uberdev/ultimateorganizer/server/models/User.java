@@ -72,12 +72,13 @@ public class User extends CoreUser implements CoreStorable
         if(matchingUsers.size() > 0)
         {
             User matchingUser = matchingUsers.get(0);
+            System.out.println("qwe");
             if(matchingUser.getState() == User.STATE_BANNED)
                 return false;
             // set the parameters from matching user
             set(matchingUser);
             setPassword(null);
-
+                       System.out.println("asd");
             return true;
         }
         return false;
