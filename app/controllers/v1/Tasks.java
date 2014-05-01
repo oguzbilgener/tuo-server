@@ -70,7 +70,7 @@ public class Tasks extends Controller {
     {
         JsonNode requestNode = request().body().asJson();
 
-        User authUser = Authentication.getAuthenticatedUser(publicKey,signature,requestNode.asText();
+        User authUser = Authentication.getAuthenticatedUser(publicKey,signature,requestNode.asText());
 
         if(authUser != null)
         {
