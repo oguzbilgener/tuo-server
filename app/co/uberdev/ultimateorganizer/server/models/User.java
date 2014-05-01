@@ -67,21 +67,20 @@ public class User extends CoreUser implements CoreStorable
         // TODO: connect to database and see if the given username and password of this User matches a user.
         // Then load all the retrieved data to self
         Users matchingUsers = new Users();
+        // actually make a query to the database and fill it into matchingUsers
         matchingUsers.loadFromDb(CoreDataRules.columns.users.emailAddress + "= ? AND "+CoreDataRules.columns.users.passwordHashed + " = ? ", new String[] { emailAddress, passwordHashed }, 1);
         if(matchingUsers.size() > 0)
         {
-            System.out.println("AAAA");
             User matchingUser = matchingUsers.get(0);
+
             if(matchingUser.getState() == User.STATE_BANNED)
                 return false;
-            System.out.println("BBBBB");
             // set the parameters from matching user
             set(matchingUser);
             setPassword(null);
 
             return true;
         }
-        System.out.println("CCCC");
         return false;
     }
 
@@ -145,7 +144,8 @@ public class User extends CoreUser implements CoreStorable
             insertStatement.setInt(n++, getCreated());
             insertStatement.setInt(n++, getBirthday());
 
-            return insertStatement.execute();
+            insertStatement.execute();
+            return true;
         }
         catch (SQLException e)
         {
