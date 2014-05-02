@@ -4,6 +4,7 @@ import co.uberdev.ultimateorganizer.core.Core;
 import co.uberdev.ultimateorganizer.core.CoreDataRules;
 import co.uberdev.ultimateorganizer.core.CoreStorable;
 import co.uberdev.ultimateorganizer.core.CoreTask;
+import com.google.gson.Gson;
 import play.db.DB;
 
 import java.sql.PreparedStatement;
@@ -44,28 +45,26 @@ public class Task extends CoreTask implements CoreStorable
                     CoreDataRules.columns.tasks.personal+", "+
                     CoreDataRules.columns.tasks.relatedNotes+", "+
                     CoreDataRules.columns.tasks.relatedTasks+", "+
-                    CoreDataRules.columns.tasks.reminders+", "+
                     CoreDataRules.columns.tasks.status+", "+
                     CoreDataRules.columns.tasks.tags+", "+
                     CoreDataRules.columns.tasks.taskDesc+", "+
                     CoreDataRules.columns.tasks.taskName+", "+
                     CoreDataRules.columns.tasks.taskOwnerNameCombined+", "+
-                    ") VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    ") VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             PreparedStatement insertStatement = DB.getConnection().prepareStatement(insertSql);
             insertStatement.setLong(n++, getOwnerId());
             insertStatement.setInt(n++, getBeginDate());
-            insertStatement.setObject(n++, getCourse());
-            insertStatement.setObject(n++, getCourseCodeCombined());
+            insertStatement.setString(n++, getCourse().asJsonString());
+            insertStatement.setString(n++, getCourseCodeCombined());
             insertStatement.setInt(n++, getDateCreated());
             insertStatement.setInt(n++, getEndDate());
             insertStatement.setInt(n++, getLastModified());
             insertStatement.setBoolean(n++, isPersonal());
-            insertStatement.setString(n++, //TODO Related Notes);
-                    insertStatement.setString(n++, //TODO Related tasks);
-                            insertStatement.setString(n++, //TODO Remainders);
-                                    insertStatement.setInt(n++, getStatus());
-            insertStatement.setObject(n++, getTags());
+            insertStatement.setString(n++, new Gson().toJson(getRelatedNotes()));
+            insertStatement.setString(n++, new Gson().toJson(getRelatedTasks()));
+            insertStatement.setInt(n++, getStatus());
+            insertStatement.setString(n++, getTags().asJsonString());
             insertStatement.setString(n++, getTaskDesc());
             insertStatement.setString(n++, getTaskName());
             insertStatement.setString(n++, getTaskOwnerNameCombined());
