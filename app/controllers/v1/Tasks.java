@@ -21,16 +21,16 @@ public class Tasks extends Controller {
     {
 
         //TODO try catch ?
-        JsonNode requestNode = request().body().asJson();
+        String requestBody = request().body().asText();
 
 
-        System.out.println("pkey, sig, respNode"+ publicKey+ signature+requestNode.asText());
+        System.out.println("pkey, sig, respNode:"+ publicKey+ ","+ signature +","+requestBody);
 
-       User authUser = Authentication.getAuthenticatedUser(publicKey,signature,requestNode.asText());
+       User authUser = Authentication.getAuthenticatedUser(publicKey,signature,requestBody);
        if(authUser != null)
        {
 
-           Task toAdd = (Task) CoreTask.fromJson(requestNode.asText(), CoreTask.class);
+           Task toAdd = (Task) CoreTask.fromJson(requestBody, CoreTask.class);
            toAdd.setOwnerId(authUser.getId());
 
            if(toAdd.insert())
