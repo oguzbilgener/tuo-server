@@ -1,21 +1,19 @@
 package controllers.v1;
 
-import co.uberdev.ultimateorganizer.core.CoreTask;
-import co.uberdev.ultimateorganizer.server.models.Task;
+import co.uberdev.ultimateorganizer.core.CoreNote;
+import co.uberdev.ultimateorganizer.server.models.Note;
 import co.uberdev.ultimateorganizer.server.models.User;
 import co.uberdev.ultimateorganizer.server.utils.Authentication;
 import com.fasterxml.jackson.databind.JsonNode;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-
 import java.sql.SQLException;
 
-
 /**
- * Created by ata on 5/1/14.
+ * Created by ata on 5/2/14.
  */
-public class Tasks extends Controller {
+public class Notes extends Controller{
 
     public static Result insert(String publicKey, String signature) throws SQLException
     {
@@ -24,22 +22,23 @@ public class Tasks extends Controller {
         JsonNode requestNode = request().body().asJson();
 
 
-       User authUser = Authentication.getAuthenticatedUser(publicKey,signature,requestNode.asText());
-       if(authUser != null)
-       {
+        User authUser = Authentication.getAuthenticatedUser(publicKey, signature, requestNode.asText());
+        if(authUser != null)
+        {
 
-           Task toAdd = (Task) CoreTask.fromJson(requestNode.asText(), CoreTask.class);
-           toAdd.setOwnerId(authUser.getId());
+            Note toAdd = (Note) CoreNote.fromJson(requestNode.asText(), CoreNote.class);
+            toAdd.setOwnerId(authUser.getId());
 
-           if(toAdd.insert())
-               return ok();
-           else
-               return internalServerError();
+            if(toAdd.insert())
+                return ok();
+            else
+                return internalServerError();
 
-       }else
-           return unauthorized();
+        }else
+            return unauthorized();
 
     }
+
 
     public static Result update(String publicKey, String signature)
     {
@@ -50,7 +49,7 @@ public class Tasks extends Controller {
 
         if(authUser != null)
         {
-            Task toUpdate = (Task) CoreTask.fromJson(requestNode.asText(), CoreTask.class);
+            Note toUpdate = (Note) CoreNote.fromJson(requestNode.asText(), CoreNote.class);
 
             if(toUpdate.update())
                 return ok();
@@ -61,6 +60,7 @@ public class Tasks extends Controller {
 
     }
 
+
     public static Result remove(String publicKey, String signature)
     {
         JsonNode requestNode = request().body().asJson();
@@ -69,7 +69,7 @@ public class Tasks extends Controller {
 
         if(authUser != null)
         {
-            Task toRemove = (Task) CoreTask.fromJson(requestNode.asText(), CoreTask.class);
+            Note toRemove = (Note) CoreNote.fromJson(requestNode.asText(), CoreNote.class);
 
             if(toRemove.remove())
                 return ok();
@@ -80,6 +80,4 @@ public class Tasks extends Controller {
         }else
             return unauthorized();
     }
-
-
 }
