@@ -21,10 +21,10 @@ public class Tasks extends Controller {
     {
 
         //TODO try catch ?
-        String requestBody = request().body().asText();
+        String requestBody = request().body().asText();     
 
 
-        System.out.println("pkey, sig, respNode:"+ publicKey+ ","+ signature +","+requestBody);
+        System.out.println("pkey, sig, respNode:"+ publicKey+ ","+ signature +","+request().body().asJson().asText());
 
        User authUser = Authentication.getAuthenticatedUser(publicKey,signature,requestBody);
        if(authUser != null)
