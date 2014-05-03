@@ -1,6 +1,7 @@
 package controllers.v1;
 
 import co.uberdev.ultimateorganizer.core.CoreTask;
+import co.uberdev.ultimateorganizer.core.CoreUtils;
 import co.uberdev.ultimateorganizer.server.models.Task;
 import co.uberdev.ultimateorganizer.server.models.User;
 import co.uberdev.ultimateorganizer.server.utils.Authentication;
@@ -28,18 +29,22 @@ public class Tasks extends Controller {
             reqBody.asJson().toString();
         String requestBody =  request().body().asJson().toString();
 
-        System.out.println("pkey, sig, respNode:"+ public_key+ ","+ signature +","+requestBody); 
+        System.out.println("pkey, sig, respNode:"+ public_key+ ","+ signature +","+requestBody);
        User authUser = Authentication.getAuthenticatedUser(public_key,signature,requestBody);
        if(authUser != null)
        {
 
            Task toAdd = (Task) CoreTask.fromJson(requestBody, CoreTask.class);
            toAdd.setOwnerId(authUser.getId());
-
-           if(toAdd.insert())
+           try
+           {
+               toAdd.insert();
                return ok();
-           else
-               return internalServerError();
+           }
+           catch(Exception e)
+           {
+               return internalServerError(CoreUtils.getStackTrace(e));
+           }
 
        }else
            return unauthorized();
