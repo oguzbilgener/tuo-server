@@ -18,7 +18,7 @@ import java.sql.SQLException;
  */
 public class Tasks extends Controller {
 
-    public static Result insert(String publicKey, String signature) throws SQLException
+    public static Result insert(String public_key, String signature) throws SQLException
     {
         System.out.println("A");
         //TODO try catch ?
@@ -31,9 +31,9 @@ public class Tasks extends Controller {
         String requestBody =  request().body().asText();
         System.out.println("C");
 
-        System.out.println("pkey, sig, respNode:"+ publicKey+ ","+ signature +","+request().body().asJson().asText());
+        System.out.println("pkey, sig, respNode:"+ public_key+ ","+ signature +","+request().body().asJson().asText());
         System.out.println("D");
-       User authUser = Authentication.getAuthenticatedUser(publicKey,signature,requestBody);
+       User authUser = Authentication.getAuthenticatedUser(public_key,signature,requestBody);
        if(authUser != null)
        {
 
