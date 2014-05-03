@@ -26,6 +26,8 @@ public class Tasks extends Controller {
 
         if(reqBody == null)
             System.out.println("null");
+        else
+            reqBody.toString();
         String requestBody =  request().body().asText();
 
 
