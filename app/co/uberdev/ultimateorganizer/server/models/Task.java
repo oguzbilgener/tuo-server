@@ -30,7 +30,7 @@ public class Task extends CoreTask implements CoreStorable
         try
         {
             int n = 1;
-            String insertSql = "INSERT INTO"+getTableName()+" (" +
+            String insertSql = "INSERT INTO "+getTableName()+" (" +
                     CoreDataRules.columns.tasks.id+", "+
                     CoreDataRules.columns.tasks.ownerId+", "+
                     CoreDataRules.columns.tasks.beginDate+", "+
@@ -71,7 +71,7 @@ public class Task extends CoreTask implements CoreStorable
         }
         catch(SQLException e)
         {
-            System.out.println(CoreUtils.getStackTrace(e));     
+            System.out.println(CoreUtils.getStackTrace(e));
         }
         return false;
     }
