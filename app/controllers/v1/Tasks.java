@@ -38,8 +38,10 @@ public class Tasks extends Controller {
            toAdd.setOwnerId(authUser.getId());
            try
            {
-               toAdd.insert();
-               return ok();
+               if(toAdd.insert())
+                    return ok();
+               else
+                   return internalServerError("could not insert");
            }
            catch(Exception e)
            {
