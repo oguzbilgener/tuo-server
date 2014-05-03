@@ -34,7 +34,7 @@ public class Tasks extends Controller {
        if(authUser != null)
        {
 
-           Task toAdd = (Task) CoreTask.fromJson(requestBody, CoreTask.class);
+           Task toAdd = Task.fromJson(requestBody, Task.class);
            toAdd.setOwnerId(authUser.getId());
            try
            {
