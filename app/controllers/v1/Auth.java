@@ -112,7 +112,7 @@ public class Auth extends Controller
      */
     public static Result verify(String public_key, String signature)
     {
-        System.out.println(request().body().asText());
+        System.out.println(request().body());
         try
         {
             User verifiedUser = Authentication.getAuthenticatedUser(public_key, signature, request().body().asText());
