@@ -46,8 +46,10 @@ public class Task extends CoreTask implements CoreStorable
                     CoreDataRules.columns.tasks.tags+", "+
                     CoreDataRules.columns.tasks.taskDesc+", "+
                     CoreDataRules.columns.tasks.taskName+", "+
-                    CoreDataRules.columns.tasks.taskOwnerNameCombined+
+                    CoreDataRules.columns.tasks.taskOwnerNameCombined+" "+
                     ") VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+           System.out.println(insertSql);
 
             PreparedStatement insertStatement = DB.getConnection().prepareStatement(insertSql);
             insertStatement.setLong(n++, getOwnerId());
