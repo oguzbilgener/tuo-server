@@ -20,19 +20,15 @@ public class Tasks extends Controller {
 
     public static Result insert(String public_key, String signature) throws SQLException
     {
-        System.out.println("A");
         //TODO try catch ?
         Http.RequestBody reqBody = request().body();
-        System.out.println("B");
         if(reqBody == null)
             System.out.println("null");
         else
-            reqBody.toString();
-        String requestBody =  request().body().asText();
-        System.out.println("C");
+            reqBody.asJson().toString();
+        String requestBody =  request().body().asJson().toString();
 
-        System.out.println("pkey, sig, respNode:"+ public_key+ ","+ signature +","+request().body().asJson().asText());
-        System.out.println("D");
+        System.out.println("pkey, sig, respNode:"+ public_key+ ","+ signature +","+requestBody); 
        User authUser = Authentication.getAuthenticatedUser(public_key,signature,requestBody);
        if(authUser != null)
        {

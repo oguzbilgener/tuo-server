@@ -112,13 +112,11 @@ public class Auth extends Controller
      */
     public static Result verify(String public_key, String signature)
     {
-        System.out.println(request().body());
-        System.out.println(request().body().asText());
-        System.out.println(request().body().asJson());
-        System.out.println(request().body().asJson().asText());
+        // for application/json mime type,
+        // always use request().body().asJson().toStrıng()
         try
         {
-            User verifiedUser = Authentication.getAuthenticatedUser(public_key, signature, request().body().asText());
+            User verifiedUser = Authentication.getAuthenticatedUser(public_key, signature, request().body().asJson().toString());
             if(verifiedUser != null)
             {
                 return ok(verifiedUser.asJsonString());
