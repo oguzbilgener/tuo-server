@@ -149,7 +149,9 @@ public class User extends CoreUser implements CoreStorable
         }
         catch (SQLException e)
         {
+
              e.printStackTrace();
+
         }
         return false;
     }

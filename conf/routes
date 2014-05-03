@@ -15,8 +15,15 @@ POST    /v1/auth/register                       controllers.v1.Auth.register()
 POST    /v1/verify                              controllers.v1.Auth.verify(public_key: String,signature: String)
 GET     /v1/verify                              controllers.v1.Application.index()
 POST    /v1/public_feed                         controllers.v1.PublicFeed.index()
+
 POST    /v1/tasks/insert                        controllers.v1.Tasks.insert(public_key: String, signature: String)
 POST    /v1/tasks/update                        controllers.v1.Tasks.update(public_key: String, signature: String)
+POST    /v1/tasks/remove                        controllers.v1.Tasks.remove(public_key: String, signature: String)
+
+POST    /v1/notes/insert                        controllers.v1.Notes.insert(public_key: String, signature: String)
+POST    /v1/notes/update                        controllers.v1.Notes.update(public_key: String, signature: String)
+POST    /v1/notes/remove                        controllers.v1.Notes.remove(public_key: String, signature: String)
+
 
 # demos
 GET     /demo                                   controllers.v1.Demo.index()

@@ -1,18 +1,15 @@
 package controllers.v1;
 
-import co.uberdev.ultimateorganizer.core.Core;
-import co.uberdev.ultimateorganizer.core.CoreCrypto;
-import co.uberdev.ultimateorganizer.core.CoreDataRules;
 import co.uberdev.ultimateorganizer.core.CoreTask;
+import co.uberdev.ultimateorganizer.core.CoreUtils;
 import co.uberdev.ultimateorganizer.server.models.Task;
 import co.uberdev.ultimateorganizer.server.models.User;
 import co.uberdev.ultimateorganizer.server.utils.Authentication;
 import com.fasterxml.jackson.databind.JsonNode;
-import co.uberdev.ultimateorganizer.core.CoreCrypto.*;
-import play.libs.Json;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
-import play.Logger;
+
 
 import java.sql.SQLException;
 
@@ -22,24 +19,34 @@ import java.sql.SQLException;
  */
 public class Tasks extends Controller {
 
-    public static Result insert(String publicKey, String signature) throws SQLException
+    public static Result insert(String public_key, String signature) throws SQLException
     {
-
         //TODO try catch ?
-        JsonNode requestNode = request().body().asJson();
+        Http.RequestBody reqBody = request().body();
+        if(reqBody == null)
+            System.out.println("null");
+        else
+            reqBody.asJson().toString();
+        String requestBody =  request().body().asJson().toString();
 
-
-       User authUser = Authentication.getAuthenticatedUser(publicKey,signature,requestNode.asText());
+        System.out.println("pkey, sig, respNode:"+ public_key+ ","+ signature +","+requestBody);
+       User authUser = Authentication.getAuthenticatedUser(public_key,signature,requestBody);
        if(authUser != null)
        {
 
-           Task toAdd = (Task) CoreTask.fromJson(requestNode.asText(), CoreTask.class);
+           Task toAdd = Task.fromJson(requestBody, Task.class);
            toAdd.setOwnerId(authUser.getId());
-
-           if(toAdd.insert())
-               return ok();
-           else
-               return internalServerError();
+           try
+           {
+               if(toAdd.insert())
+                    return ok();
+               else
+                   return forbidden("could not insert");
+           }
+           catch(Exception e)
+           {
+               return internalServerError(CoreUtils.getStackTrace(e));
+           }
 
        }else
            return unauthorized();
@@ -66,7 +73,7 @@ public class Tasks extends Controller {
 
     }
 
-    public static Result remove(String publicKey, String signature, long taskId)
+    public static Result remove(String publicKey, String signature)
     {
         JsonNode requestNode = request().body().asJson();
 

@@ -107,15 +107,16 @@ public class Auth extends Controller
     /**
      * The controller for /auth/verify
      * @param public_key
-     * @param hashBody
+     * @param signature
      * @return
      */
-    public static Result verify(String public_key, String hashBody)
+    public static Result verify(String public_key, String signature)
     {
-
+        // for application/json mime type,
+        // always use request().body().asJson().toStrıng()
         try
         {
-            User verifiedUser = Authentication.getAuthenticatedUser(public_key, hashBody, request().body().asText());
+            User verifiedUser = Authentication.getAuthenticatedUser(public_key, signature, request().body().asJson().toString());
             if(verifiedUser != null)
             {
                 return ok(verifiedUser.asJsonString());
