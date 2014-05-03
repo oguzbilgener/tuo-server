@@ -6,6 +6,7 @@ import co.uberdev.ultimateorganizer.server.models.User;
 import co.uberdev.ultimateorganizer.server.utils.Authentication;
 import com.fasterxml.jackson.databind.JsonNode;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
 
 
@@ -21,7 +22,11 @@ public class Tasks extends Controller {
     {
 
         //TODO try catch ?
-        String requestBody = request().body().asText();     
+        Http.RequestBody reqBody = request().body();
+
+        if(reqBody == null)
+            System.out.println("null");
+        String requestBody =  request().body().asText();
 
 
         System.out.println("pkey, sig, respNode:"+ publicKey+ ","+ signature +","+request().body().asJson().asText());
