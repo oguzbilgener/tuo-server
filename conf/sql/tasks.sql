@@ -15,6 +15,7 @@ create table tasks (
     begin_date int,
     end_date int,
     course text,
+    course_id text,
     course_code_combined text,
     task_owner_name_combined text
 );
