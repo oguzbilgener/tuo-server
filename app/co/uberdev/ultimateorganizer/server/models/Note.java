@@ -50,7 +50,7 @@ public class Note extends CoreNote implements CoreStorable
             generatedKeys = insertStatement.getGeneratedKeys();
 
             if(generatedKeys.next())
-                setId(generaatedKeys.getLong(1));
+                setId(generatedKeys.getLong(1));
 
             return true;
 
