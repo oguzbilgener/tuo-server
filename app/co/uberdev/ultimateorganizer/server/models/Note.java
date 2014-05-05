@@ -25,7 +25,7 @@ public class Note extends CoreNote implements CoreStorable
         try
         {
             int n = 1;
-            String insertSql = "INSERT INTO"+ getTableName() + " (" +
+            String insertSql = "INSERT INTO "+ getTableName() + " (" +
                     CoreDataRules.columns.notes.id+", "+
                     CoreDataRules.columns.notes.ownerId+", "+
                     CoreDataRules.columns.notes.attachment+", "+
