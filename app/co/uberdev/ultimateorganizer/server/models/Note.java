@@ -73,7 +73,7 @@ public class Note extends CoreNote implements CoreStorable
 
         try
         {
-            String removeSql = "DELETE FROM " + getTableName() + "WHERE " + CoreDataRules.columns.notes.id + " = ?" ;
+            String removeSql = "DELETE FROM " + getTableName() + " WHERE " + CoreDataRules.columns.notes.id + " = ?" ;
 
             PreparedStatement removeStatement = DB.getConnection().prepareStatement(removeSql);
             removeStatement.setLong(1, getId());
