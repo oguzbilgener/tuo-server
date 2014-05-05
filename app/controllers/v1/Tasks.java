@@ -30,7 +30,7 @@ public class Tasks extends Controller {
        {
 
            Task toAdd = Task.fromJson(requestBody, Task.class);
-           toAdd.setOwnerId(authUser.getId());
+
            try
            {
                if(toAdd.insert())
@@ -57,7 +57,7 @@ public class Tasks extends Controller {
 
         if(authUser != null)
         {
-            Task toUpdate = (Task) CoreTask.fromJson(requestBody, CoreTask.class);
+            Task toUpdate = Task.fromJson(requestBody, Task.class);
 
             if(toUpdate.update())
                 return ok();
@@ -76,7 +76,7 @@ public class Tasks extends Controller {
 
         if(authUser != null)
         {
-            Task toRemove = (Task) CoreTask.fromJson(requestBody, CoreTask.class);
+            Task toRemove = Task.fromJson(requestBody, Task.class);
 
             if(toRemove.remove())
                 return ok();
