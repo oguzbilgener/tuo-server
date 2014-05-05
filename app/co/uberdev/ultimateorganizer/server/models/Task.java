@@ -34,6 +34,7 @@ public class Task extends CoreTask implements CoreStorable
                     CoreDataRules.columns.tasks.id+", "+
                     CoreDataRules.columns.tasks.ownerId+", "+
                     CoreDataRules.columns.tasks.beginDate+", "+
+                    CoreDataRules.columns.tasks.courseId+", "+
                     CoreDataRules.columns.tasks.course+", "+
                     CoreDataRules.columns.tasks.courseCodeCombined+", "+
                     CoreDataRules.columns.tasks.dateCreated+", "+
@@ -47,13 +48,14 @@ public class Task extends CoreTask implements CoreStorable
                     CoreDataRules.columns.tasks.taskDesc+", "+
                     CoreDataRules.columns.tasks.taskName+", "+
                     CoreDataRules.columns.tasks.taskOwnerNameCombined+" "+
-                    ") VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    ") VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
            System.out.println(insertSql);
 
             PreparedStatement insertStatement = DB.getConnection().prepareStatement(insertSql);
             insertStatement.setLong(n++, getOwnerId());
             insertStatement.setInt(n++, getBeginDate());
+            insertStatement.setInt(n++, getCourseId());
             insertStatement.setString(n++, getCourse().asJsonString());
             insertStatement.setString(n++, getCourseCodeCombined());
             insertStatement.setInt(n++, getDateCreated());

@@ -13,8 +13,6 @@ import java.sql.SQLException;
  */
 public class User extends CoreUser implements CoreStorable
 {
-    protected long id;
-
     protected static final String PUBLIC_KEY_SALT = "im-yiJ-iC-Wyn-Ya";
     protected static final String SECRET_TOKEN_SALT = "yiV-Vet-Dej-kaj-";
     protected static final String PASSWORD_SALT = "Ap-Fej-Faigs-Ad-E";
@@ -37,14 +35,6 @@ public class User extends CoreUser implements CoreStorable
         this.emailAddress = emailAddress;
         this.password = password;
         hashPassword();
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public void setPassword(String password)
