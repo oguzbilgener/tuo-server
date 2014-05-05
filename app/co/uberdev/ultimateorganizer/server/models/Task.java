@@ -50,7 +50,7 @@ public class Task extends CoreTask implements CoreStorable
                     CoreDataRules.columns.tasks.taskOwnerNameCombined+" "+
                     ") VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-           System.out.println(insertSql);
+
 
             PreparedStatement insertStatement = DB.getConnection().prepareStatement(insertSql);
             insertStatement.setLong(n++, getOwnerId());
@@ -95,6 +95,11 @@ public class Task extends CoreTask implements CoreStorable
 
             PreparedStatement removeStatement = DB.getConnection().prepareStatement(removeSql);
             removeStatement.setLong(1, getId());
+
+            System.out.println(removeStatement.toString());
+
+            System.out.println(removeSql);
+
             removeStatement.execute();
             return true;
 

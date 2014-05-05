@@ -10,7 +10,7 @@ public class Application extends Controller
     public static Result index()
     {
         // Test importing from tuo-core
-        CoreTask task = new CoreTask();
+
 
    
         return ok("Hello world. lolo");
