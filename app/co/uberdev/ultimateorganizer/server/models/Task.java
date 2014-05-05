@@ -87,6 +87,19 @@ public class Task extends CoreTask implements CoreStorable
     @Override
     public boolean remove()
     {
+        try {
+
+            String removeSql    = "DELETE FROM " + CoreDataRules.tables.tasks + " WHERE id = " + getId();
+
+            PreparedStatement removeStatement = DB.getConnection().prepareStatement(removeSql);
+
+            removeStatement.execute();
+            return true;
+
+        }catch (SQLException e)
+        {
+            System.out.println(CoreUtils.getStackTrace(e));
+        }
         return false;
     }
 }

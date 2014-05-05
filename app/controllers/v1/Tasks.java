@@ -21,12 +21,7 @@ public class Tasks extends Controller {
 
     public static Result insert(String public_key, String signature) throws SQLException
     {
-        //TODO try catch ?
-        Http.RequestBody reqBody = request().body();
-        if(reqBody == null)
-            System.out.println("null");
-        else
-            reqBody.asJson().toString();
+
         String requestBody =  request().body().asJson().toString();
 
         System.out.println("pkey, sig, respNode:"+ public_key+ ","+ signature +","+requestBody);
@@ -41,7 +36,7 @@ public class Tasks extends Controller {
                if(toAdd.insert())
                     return ok();
                else
-                   return forbidden("could not insert");
+                   return internalServerError();
            }
            catch(Exception e)
            {
@@ -56,13 +51,13 @@ public class Tasks extends Controller {
     public static Result update(String publicKey, String signature)
     {
 
-        JsonNode requestNode = request().body().asJson();
+        String requestBody = request().body().asJson().toString();
 
-        User authUser = Authentication.getAuthenticatedUser(publicKey,signature,requestNode.asText());
+        User authUser = Authentication.getAuthenticatedUser(publicKey,signature,requestBody);
 
         if(authUser != null)
         {
-            Task toUpdate = (Task) CoreTask.fromJson(requestNode.asText(), CoreTask.class);
+            Task toUpdate = (Task) CoreTask.fromJson(requestBody, CoreTask.class);
 
             if(toUpdate.update())
                 return ok();
@@ -75,13 +70,13 @@ public class Tasks extends Controller {
 
     public static Result remove(String publicKey, String signature)
     {
-        JsonNode requestNode = request().body().asJson();
+        String requestBody = request().body().asJson().toString();
 
-        User authUser = Authentication.getAuthenticatedUser(publicKey,signature,requestNode.asText());
+        User authUser = Authentication.getAuthenticatedUser(publicKey,signature,requestBody);
 
         if(authUser != null)
         {
-            Task toRemove = (Task) CoreTask.fromJson(requestNode.asText(), CoreTask.class);
+            Task toRemove = (Task) CoreTask.fromJson(requestBody, CoreTask.class);
 
             if(toRemove.remove())
                 return ok();
