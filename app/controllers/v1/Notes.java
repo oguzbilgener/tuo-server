@@ -26,7 +26,7 @@ public class Notes extends Controller{
         if(authUser != null)
         {
 
-            Note toAdd = (Note) CoreNote.fromJson(requestBody, CoreNote.class);
+            Note toAdd = Note.fromJson(requestBody, Note.class);
             toAdd.setOwnerId(authUser.getId());
 
             if(toAdd.insert())
@@ -49,7 +49,7 @@ public class Notes extends Controller{
 
         if(authUser != null)
         {
-            Note toUpdate = (Note) CoreNote.fromJson(requestBody, CoreNote.class);
+            Note toUpdate = Note.fromJson(requestBody, Note.class);
 
             if(toUpdate.update())
                 return ok();
@@ -69,7 +69,7 @@ public class Notes extends Controller{
 
         if(authUser != null)
         {
-            Note toRemove = (Note) CoreNote.fromJson(requestBody, CoreNote.class);
+            Note toRemove = Note.fromJson(requestBody, Note.class);
 
             if(toRemove.remove())
                 return ok();
