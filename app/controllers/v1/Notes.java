@@ -63,7 +63,7 @@ public class Notes extends Controller{
 
     public static Result remove(String publicKey, String signature)
     {
-        String requestBody = request().body().asJson().asText();
+        String requestBody = request().body().asJson().toString();
 
         User authUser = Authentication.getAuthenticatedUser(publicKey,signature,requestBody);
 
