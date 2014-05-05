@@ -3,8 +3,6 @@ package co.uberdev.ultimateorganizer.server.models;
 import co.uberdev.ultimateorganizer.core.*;
 import com.google.gson.Gson;
 import play.db.DB;
-
-import java.beans.Statement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -52,7 +50,7 @@ public class Task extends CoreTask implements CoreStorable
                     CoreDataRules.columns.tasks.taskOwnerNameCombined+" "+
                     ") VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-            ResultSet generatedKeys = null;
+            ResultSet generatedKeys;
 
             PreparedStatement insertStatement = DB.getConnection().prepareStatement(insertSql, PreparedStatement.RETURN_GENERATED_KEYS);
             insertStatement.setLong(n++, getOwnerId());

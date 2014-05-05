@@ -35,7 +35,7 @@ public class Note extends CoreNote implements CoreStorable
                     CoreDataRules.columns.notes.relatedTaskID+" "+
                     ") VALUES (default, ?, ?, ?, ?, ?, ?)";
 
-            ResultSet genertedKeys = null;
+            ResultSet generatedKeys;
 
             PreparedStatement insertStatement = DB.getConnection().prepareStatement(insertSql, PreparedStatement.RETURN_GENERATED_KEYS);
             insertStatement.setLong(n++, getOwnerId());
@@ -47,10 +47,10 @@ public class Note extends CoreNote implements CoreStorable
 
             insertStatement.execute();
 
-            genertedKeys = insertStatement.getGeneratedKeys();
+            generatedKeys = insertStatement.getGeneratedKeys();
 
-            if(genertedKeys.next())
-                setId(genertedKeys.getLong(1));
+            if(generatedKeys.next())
+                setId(generaatedKeys.getLong(1));
 
             return true;
 
