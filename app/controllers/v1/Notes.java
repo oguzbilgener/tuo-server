@@ -19,14 +19,14 @@ public class Notes extends Controller{
     {
 
         //TODO try catch ?
-        JsonNode requestNode = request().body().asJson();
+        String requestBody = request().body().asJson().toString();
 
 
-        User authUser = Authentication.getAuthenticatedUser(publicKey, signature, requestNode.asText());
+        User authUser = Authentication.getAuthenticatedUser(publicKey, signature, requestBody);
         if(authUser != null)
         {
 
-            Note toAdd = (Note) CoreNote.fromJson(requestNode.asText(), CoreNote.class);
+            Note toAdd = (Note) CoreNote.fromJson(requestBody, CoreNote.class);
             toAdd.setOwnerId(authUser.getId());
 
             if(toAdd.insert())
@@ -43,13 +43,13 @@ public class Notes extends Controller{
     public static Result update(String publicKey, String signature)
     {
 
-        JsonNode requestNode = request().body().asJson();
+        String requestBody = request().body().asJson().toString();
 
-        User authUser = Authentication.getAuthenticatedUser(publicKey,signature,requestNode.asText());
+        User authUser = Authentication.getAuthenticatedUser(publicKey,signature,requestBody);
 
         if(authUser != null)
         {
-            Note toUpdate = (Note) CoreNote.fromJson(requestNode.asText(), CoreNote.class);
+            Note toUpdate = (Note) CoreNote.fromJson(requestBody, CoreNote.class);
 
             if(toUpdate.update())
                 return ok();
@@ -63,13 +63,13 @@ public class Notes extends Controller{
 
     public static Result remove(String publicKey, String signature)
     {
-        JsonNode requestNode = request().body().asJson();
+        String requestBody = request().body().asJson().asText();
 
-        User authUser = Authentication.getAuthenticatedUser(publicKey,signature,requestNode.asText());
+        User authUser = Authentication.getAuthenticatedUser(publicKey,signature,requestBody);
 
         if(authUser != null)
         {
-            Note toRemove = (Note) CoreNote.fromJson(requestNode.asText(), CoreNote.class);
+            Note toRemove = (Note) CoreNote.fromJson(requestBody, CoreNote.class);
 
             if(toRemove.remove())
                 return ok();

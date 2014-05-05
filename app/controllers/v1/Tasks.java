@@ -24,27 +24,27 @@ public class Tasks extends Controller {
 
         String requestBody =  request().body().asJson().toString();
 
-        System.out.println("pkey, sig, respNode:"+ public_key+ ","+ signature +","+requestBody);
-       User authUser = Authentication.getAuthenticatedUser(public_key,signature,requestBody);
-       if(authUser != null)
-       {
 
-           Task toAdd = Task.fromJson(requestBody, Task.class);
-
-           try
+        User authUser = Authentication.getAuthenticatedUser(public_key,signature,requestBody);
+        if(authUser != null)
            {
-               if(toAdd.insert())
-                    return ok();
-               else
-                   return internalServerError();
-           }
-           catch(Exception e)
-           {
-               return internalServerError(CoreUtils.getStackTrace(e));
-           }
 
-       }else
-           return unauthorized();
+               Task toAdd = Task.fromJson(requestBody, Task.class);
+
+               try
+               {
+                   if(toAdd.insert())
+                        return ok();
+                   else
+                       return internalServerError();
+               }
+               catch(Exception e)
+               {
+                   return internalServerError(CoreUtils.getStackTrace(e));
+               }
+
+           }else
+               return unauthorized();
 
     }
 

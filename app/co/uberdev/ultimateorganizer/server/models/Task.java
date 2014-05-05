@@ -4,7 +4,9 @@ import co.uberdev.ultimateorganizer.core.*;
 import com.google.gson.Gson;
 import play.db.DB;
 
+import java.beans.Statement;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -50,12 +52,12 @@ public class Task extends CoreTask implements CoreStorable
                     CoreDataRules.columns.tasks.taskOwnerNameCombined+" "+
                     ") VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
+            ResultSet generatedKeys = null;
 
-
-            PreparedStatement insertStatement = DB.getConnection().prepareStatement(insertSql);
+            PreparedStatement insertStatement = DB.getConnection().prepareStatement(insertSql, PreparedStatement.RETURN_GENERATED_KEYS);
             insertStatement.setLong(n++, getOwnerId());
             insertStatement.setInt(n++, getBeginDate());
-            insertStatement.setInt(n++, getCourseId());
+            insertStatement.setLong(n++, getCourseId());
             insertStatement.setString(n++, getCourse().asJsonString());
             insertStatement.setString(n++, getCourseCodeCombined());
             insertStatement.setInt(n++, getDateCreated());
@@ -70,7 +72,15 @@ public class Task extends CoreTask implements CoreStorable
             insertStatement.setString(n++, getTaskName());
             insertStatement.setString(n++, getTaskOwnerNameCombined());
 
+
+
             insertStatement.execute();
+
+            generatedKeys = insertStatement.getGeneratedKeys();
+            if(generatedKeys.next())
+                setId(generatedKeys.getLong(1));
+
+
             return true;
         }
         catch(SQLException e)
@@ -96,9 +106,6 @@ public class Task extends CoreTask implements CoreStorable
             PreparedStatement removeStatement = DB.getConnection().prepareStatement(removeSql);
             removeStatement.setLong(1, getId());
 
-            System.out.println(removeStatement.toString());
-
-            System.out.println(removeSql);
 
             removeStatement.execute();
             return true;
