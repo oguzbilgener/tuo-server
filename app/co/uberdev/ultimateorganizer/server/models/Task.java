@@ -91,7 +91,7 @@ public class Task extends CoreTask implements CoreStorable
     {
         try {
 
-            String removeSql    = "DELETE FROM " + getTableName() + " WHERE id = ?";
+            String removeSql    = "DELETE FROM " + getTableName() + " WHERE "+ CoreDataRules.columns.tasks.id +" = ?" ;
 
             PreparedStatement removeStatement = DB.getConnection().prepareStatement(removeSql);
             removeStatement.setLong(1, getId());
