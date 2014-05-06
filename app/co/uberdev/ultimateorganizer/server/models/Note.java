@@ -76,12 +76,13 @@ public class Note extends CoreNote implements CoreStorable
         try
         {
 
+            //TODO prevent sql injection plz
             String updateSql = "UPDATE "+ getTableName() + " SET " +
-                    CoreDataRules.columns.notes.ownerId+" =  " + getOwnerId() +
-                    CoreDataRules.columns.notes.attachment+" = " + getAttachment() +
-                    CoreDataRules.columns.notes.content+" = " + getContent() +
-                    CoreDataRules.columns.notes.dateCreated+" = " + getDateCreated() +
-                    CoreDataRules.columns.notes.lastModified+" = " + getLastModified() +
+                    CoreDataRules.columns.notes.ownerId+" =  " + getOwnerId() + ", " +
+                    CoreDataRules.columns.notes.attachment+" = " + getAttachment() + ", "+
+                    CoreDataRules.columns.notes.content+" = " + getContent() + ", " +
+                    CoreDataRules.columns.notes.dateCreated+" = " + getDateCreated() +", "+
+                    CoreDataRules.columns.notes.lastModified+" = " + getLastModified() +", "+
                     CoreDataRules.columns.notes.relatedTaskID+" = " + getRelatedTaskId() +
                     " WHERE id = "  + getId();
 
