@@ -24,6 +24,7 @@ POST    /v1/notes/insert                        controllers.v1.Notes.insert(publ
 POST    /v1/notes/update                        controllers.v1.Notes.update(public_key: String, signature: String)
 POST    /v1/notes/remove                        controllers.v1.Notes.remove(public_key: String, signature: String)
 
+POST    /v1/users/feed                          controllers.v1.Users.getPublicFeed(public_key: String, signature: String)
 
 # demos
 GET     /demo                                   controllers.v1.Demo.index()

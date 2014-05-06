@@ -1,7 +1,15 @@
 package controllers.v1;
 
 
+import co.uberdev.ultimateorganizer.core.CoreDataRules;
+import co.uberdev.ultimateorganizer.core.CoreUtils;
+import co.uberdev.ultimateorganizer.server.models.User;
+import co.uberdev.ultimateorganizer.server.utils.Authentication;
+import play.db.DB;
 import play.mvc.*;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 
 /**
@@ -10,10 +18,8 @@ import play.mvc.*;
 public class PublicFeed extends Controller {
 
 
-    public static Result index()
+    public static Result index(String public_key, String signature)
     {
-        //TODO SLQ FOR RETURNING TASKS
-
         return ok("lel");
     }
 }

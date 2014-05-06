@@ -3,10 +3,14 @@ package co.uberdev.ultimateorganizer.server.models;
 import co.uberdev.ultimateorganizer.core.*;
 import co.uberdev.ultimateorganizer.server.utils.Validation;
 import play.db.DB;
+import play.mvc.Result;
 
 import java.lang.reflect.Field;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
+import static play.mvc.Results.internalServerError;
+import static play.mvc.Results.ok;
 
 /**
  * Created by oguzbilgener on 08/04/14.
@@ -203,6 +207,42 @@ public class User extends CoreUser implements CoreStorable
         setDepartmentName(user.getDepartmentName());
         setCreated(user.getCreated());
         setBirthday(user.getBirthday());
+    }
+
+
+    public Tasks getFeed() throws SQLException
+    {
+            Courses coursesOfUser = new Courses();
+            coursesOfUser.loadFromDb(CoreDataRules.columns.courses.ownerId + " = ?", new String[]{String.valueOf(getId())}, 0);
+            if(coursesOfUser.size() > 0)
+            {
+                Tasks publicTasks = new Tasks();
+                String sqlCriteria = "";
+                String[] fields = new String[coursesOfUser.size()+1];
+
+                sqlCriteria += "(";
+                for(int i=0; i< coursesOfUser.size(); i++)
+                {
+                    if(i>0)
+                        sqlCriteria += " OR ";
+                    sqlCriteria += CoreDataRules.columns.tasks.courseCodeCombined + " = ? ";
+                }
+                sqlCriteria += ") AND "+CoreDataRules.columns.tasks.ownerId + " != ? ";
+                for(int i=0; i<coursesOfUser.size(); i++)
+                {
+                    fields[i] = coursesOfUser.get(i).getCourseCodeCombined();
+                }
+                fields[coursesOfUser.size()] = String.valueOf(getId());
+
+
+                publicTasks.loadFromDb(sqlCriteria, fields, 0);
+
+                return publicTasks;
+            }
+            else
+            {
+                return new Tasks();
+            }
     }
 
 }
