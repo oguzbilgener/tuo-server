@@ -30,7 +30,7 @@ public class Notes extends Controller{
             toAdd.setOwnerId(authUser.getId());
 
             if(toAdd.insert())
-                return ok();
+                return ok(toAdd.asJsonString());
             else
                 return internalServerError();
 

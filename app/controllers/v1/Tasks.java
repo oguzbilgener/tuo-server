@@ -34,7 +34,7 @@ public class Tasks extends Controller {
                try
                {
                    if(toAdd.insert())
-                        return ok();
+                        return ok(toAdd.asJsonString());
                    else
                        return internalServerError();
                }
