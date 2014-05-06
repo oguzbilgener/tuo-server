@@ -91,6 +91,58 @@ public class Task extends CoreTask implements CoreStorable
     @Override
     public boolean update()
     {
+
+        try
+        {
+
+            int n = 1;
+            String updateSql = "UPDATE "+getTableName()+" SET " +
+                    CoreDataRules.columns.tasks.id+" = ? , "+
+                    CoreDataRules.columns.tasks.ownerId+" = ? , "+
+                    CoreDataRules.columns.tasks.beginDate+" = ? , "+
+                    CoreDataRules.columns.tasks.courseId+" = ? , "+
+                    CoreDataRules.columns.tasks.course+" = ? , "+
+                    CoreDataRules.columns.tasks.courseCodeCombined+" = ? , "+
+                    CoreDataRules.columns.tasks.dateCreated+" = ? , "+
+                    CoreDataRules.columns.tasks.endDate+" = ? , "+
+                    CoreDataRules.columns.tasks.lastModified+" = ? , "+
+                    CoreDataRules.columns.tasks.personal+" = ? , "+
+                    CoreDataRules.columns.tasks.relatedNotes+" = ? , "+
+                    CoreDataRules.columns.tasks.relatedTasks+" = ? , "+
+                    CoreDataRules.columns.tasks.status+" = ? , "+
+                    CoreDataRules.columns.tasks.tags+" = ? , "+
+                    CoreDataRules.columns.tasks.taskDesc+" = ? , "+
+                    CoreDataRules.columns.tasks.taskName+" = ? , "+
+                    CoreDataRules.columns.tasks.taskOwnerNameCombined+" = ? "+
+                    " WHERE id = " + getId();
+
+
+            PreparedStatement updateStatement = DB.getConnection().prepareStatement(updateSql);
+            updateStatement.setLong(n++, getOwnerId());
+            updateStatement.setInt(n++, getBeginDate());
+            updateStatement.setLong(n++, getCourseId());
+            updateStatement.setString(n++, getCourse().asJsonString());
+            updateStatement.setString(n++, getCourseCodeCombined());
+            updateStatement.setInt(n++, getDateCreated());
+            updateStatement.setInt(n++, getEndDate());
+            updateStatement.setInt(n++, getLastModified());
+            updateStatement.setBoolean(n++, isPersonal());
+            updateStatement.setString(n++, new Gson().toJson(getRelatedNotes()));
+            updateStatement.setString(n++, new Gson().toJson(getRelatedTasks()));
+            updateStatement.setInt(n++, getStatus());
+            updateStatement.setString(n++, getTags().asJsonString());
+            updateStatement.setString(n++, getTaskDesc());
+            updateStatement.setString(n++, getTaskName());
+            updateStatement.setString(n++, getTaskOwnerNameCombined());
+
+            updateStatement.execute();
+
+            return true;
+
+        }catch(SQLException e)
+        {
+            System.out.println(CoreUtils.getStackTrace(e));
+        }
         return false;
     }
 

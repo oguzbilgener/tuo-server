@@ -2,15 +2,8 @@ package co.uberdev.ultimateorganizer.server.models;
 
 import co.uberdev.ultimateorganizer.core.*;
 import play.db.DB;
-import scala.sys.process.processInternal;
-
-import java.io.InputStream;
-import java.io.Reader;
-import java.math.BigDecimal;
-import java.net.URL;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Calendar;
+
 
 /**
  * Created by oguzbilgener on 14/04/14.
@@ -77,12 +70,10 @@ public class Note extends CoreNote implements CoreStorable
         {
 
             int n = 1;
-            //TODO prevent sql injection plz
             String updateSql = "UPDATE "+ getTableName() + " SET " +
                     CoreDataRules.columns.notes.ownerId+" =  ? , " +
                     CoreDataRules.columns.notes.attachment+" = ? , "+
                     CoreDataRules.columns.notes.content+" = ? , " +
-                    CoreDataRules.columns.notes.dateCreated+" = ? , "+
                     CoreDataRules.columns.notes.lastModified+" =  ? , "+
                     CoreDataRules.columns.notes.relatedTaskID+" = ? " +
                     " WHERE id = "  + getId();
@@ -92,7 +83,6 @@ public class Note extends CoreNote implements CoreStorable
             updateStatement.setLong(n++,getOwnerId());
             updateStatement.setString(n++, getAttachment().asJsonString());
             updateStatement.setString(n++, getContent());
-            updateStatement.setInt(n++, getDateCreated());
             updateStatement.setInt(n++, getDateCreated());
             updateStatement.setLong(n++, getRelatedTaskId());
 
