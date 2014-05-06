@@ -94,7 +94,7 @@ public class Note extends CoreNote implements CoreStorable
 
         }catch(SQLException e)
         {
-            CoreUtils.getStackTrace(e);
+            System.out.println(CoreUtils.getStackTrace(e));
         }
 
         return false;
