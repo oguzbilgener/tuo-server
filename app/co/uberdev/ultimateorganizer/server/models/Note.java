@@ -76,18 +76,25 @@ public class Note extends CoreNote implements CoreStorable
         try
         {
 
+            int n = 1;
             //TODO prevent sql injection plz
             String updateSql = "UPDATE "+ getTableName() + " SET " +
-                    CoreDataRules.columns.notes.ownerId+" =  " + getOwnerId() + ", " +
-                    CoreDataRules.columns.notes.attachment+" = " + getAttachment() + ", "+
-                    CoreDataRules.columns.notes.content+" = " + getContent() + ", " +
-                    CoreDataRules.columns.notes.dateCreated+" = " + getDateCreated() +", "+
-                    CoreDataRules.columns.notes.lastModified+" = " + getLastModified() +", "+
-                    CoreDataRules.columns.notes.relatedTaskID+" = " + getRelatedTaskId() +
+                    CoreDataRules.columns.notes.ownerId+" =  ? , " +
+                    CoreDataRules.columns.notes.attachment+" = ? , "+
+                    CoreDataRules.columns.notes.content+" = ? , " +
+                    CoreDataRules.columns.notes.dateCreated+" = ? , "+
+                    CoreDataRules.columns.notes.lastModified+" =  ? , "+
+                    CoreDataRules.columns.notes.relatedTaskID+" = ? " +
                     " WHERE id = "  + getId();
 
 
             PreparedStatement updateStatement = DB.getConnection().prepareStatement(updateSql);
+            updateStatement.setLong(n++,getOwnerId());
+            updateStatement.setString(n++, getAttachment().asJsonString());
+            updateStatement.setString(n++, getContent());
+            updateStatement.setInt(n++, getDateCreated());
+            updateStatement.setInt(n++, getDateCreated());
+            updateStatement.setLong(n++, getRelatedTaskId());
 
             updateStatement.execute();
 
