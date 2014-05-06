@@ -97,7 +97,6 @@ public class Task extends CoreTask implements CoreStorable
 
             int n = 1;
             String updateSql = "UPDATE "+getTableName()+" SET " +
-                    CoreDataRules.columns.tasks.id+" = ? , "+
                     CoreDataRules.columns.tasks.ownerId+" = ? , "+
                     CoreDataRules.columns.tasks.beginDate+" = ? , "+
                     CoreDataRules.columns.tasks.courseId+" = ? , "+
@@ -105,7 +104,6 @@ public class Task extends CoreTask implements CoreStorable
                     CoreDataRules.columns.tasks.courseCodeCombined+" = ? , "+
                     CoreDataRules.columns.tasks.dateCreated+" = ? , "+
                     CoreDataRules.columns.tasks.endDate+" = ? , "+
-                    CoreDataRules.columns.tasks.lastModified+" = ? , "+
                     CoreDataRules.columns.tasks.personal+" = ? , "+
                     CoreDataRules.columns.tasks.relatedNotes+" = ? , "+
                     CoreDataRules.columns.tasks.relatedTasks+" = ? , "+
@@ -125,7 +123,6 @@ public class Task extends CoreTask implements CoreStorable
             updateStatement.setString(n++, getCourseCodeCombined());
             updateStatement.setInt(n++, getDateCreated());
             updateStatement.setInt(n++, getEndDate());
-            updateStatement.setInt(n++, getLastModified());
             updateStatement.setBoolean(n++, isPersonal());
             updateStatement.setString(n++, new Gson().toJson(getRelatedNotes()));
             updateStatement.setString(n++, new Gson().toJson(getRelatedTasks()));
