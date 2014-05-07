@@ -9,7 +9,7 @@ import java.sql.*;
  */
 public class Course extends CoreCourse implements CoreStorable
 {
-    
+
     @Override
     public String getTableName() {
         return CoreDataRules.tables.courses;
