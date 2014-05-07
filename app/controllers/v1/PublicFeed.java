@@ -18,7 +18,7 @@ import java.sql.SQLException;
 public class PublicFeed extends Controller {
 
 
-    public static Result index(String public_key, String signature)
+    public static Result index()
     {
         return ok("lel");
     }

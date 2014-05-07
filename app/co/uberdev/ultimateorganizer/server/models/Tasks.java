@@ -1,11 +1,13 @@
 package co.uberdev.ultimateorganizer.server.models;
 
 import co.uberdev.ultimateorganizer.core.*;
+import com.google.gson.reflect.TypeToken;
 import play.db.DB;
-
+import com.google.gson.Gson;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  * Created by oguzbilgener on 14/04/14.
@@ -53,8 +55,14 @@ public class Tasks extends CoreTasks implements CoreSelectable
                 task.setEndDate(set.getInt(CoreDataRules.columns.tasks.endDate));
                 task.setLastModified(set.getInt(CoreDataRules.columns.tasks.lastModified));
                 task.setPersonal(set.getBoolean(CoreDataRules.columns.tasks.personal));
-                task.setRelatedNotes(set.getString(CoreDataRules.columns.tasks.relatedNotes)); //TODO
-                task.setRelatedTasks(set.getString(CoreDataRules.columns.tasks.relatedTasks));
+
+                ArrayList relatedNoteIds = new Gson().fromJson(set.getString(CoreDataRules.columns.tasks.relatedNotes), new TypeToken<ArrayList<Long>>(){}.getType());
+                task.setRelatedNotes(relatedNoteIds);
+
+
+                ArrayList relatedTaskIds = new Gson().fromJson(set.getString(CoreDataRules.columns.tasks.relatedTasks), new TypeToken<ArrayList<Long>>(){}.getType());
+                task.setRelatedTasks(relatedTaskIds);
+
                 task.setStatus(set.getInt(CoreDataRules.columns.tasks.status));
                 task.setTags(fromJson(set.getString(CoreDataRules.columns.tasks.tags), CoreTags.class)); //TODO
                 task.setTaskDesc(set.getString(CoreDataRules.columns.tasks.taskDesc));
@@ -71,7 +79,11 @@ public class Tasks extends CoreTasks implements CoreSelectable
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        } catch (CoreTask.BadStateException e) {
+            e.printStackTrace();
         }
+
+        return false;
     }
 
     @Override
