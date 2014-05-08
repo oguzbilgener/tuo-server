@@ -12,7 +12,7 @@ import java.sql.SQLException;
 /**
  * Created by ata, Edited by guraybaydur on 5/7/14.
  */
-public class Courses extends Controller {
+public class    Courses extends Controller {
 
     public static Result insert(String publicKey, String signature) throws SQLException
     {
@@ -75,6 +75,24 @@ public class Courses extends Controller {
                 return internalServerError();
 
 
+        }else
+            return unauthorized();
+    }
+
+    public static Result add(String publicKey, String signature)
+    {
+        String requestBody = request().body().asJson().toString();
+
+        User authUser = Authentication.getAuthenticatedUser(publicKey,signature,requestBody);
+
+        if(authUser != null)
+        {
+            Course toChange = Course.fromJson(requestBody, Course.class);
+            toChange.setOwnerId(authUser.getId());
+            if(toChange.update())
+                return ok();
+            else
+                return internalServerError();
         }else
             return unauthorized();
     }

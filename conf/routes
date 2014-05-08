@@ -23,6 +23,7 @@ POST    /v1/tasks/remove                        controllers.v1.Tasks.remove(publ
 POST    /v1/courses/insert                      controllers.v1.Courses.insert(public_key: String, signature: String)
 POST    /v1/courses/update                      controllers.v1.Courses.update(public_key: String, signature: String)
 POST    /v1/courses/remove                      controllers.v1.Courses.remove(public_key: String, signature: String)
+POST    /v1/courses/add                         controllers.v1.Courses.add(public_key: String, signature: String)
 
 POST    /v1/notes/insert                        controllers.v1.Notes.insert(public_key: String, signature: String)
 POST    /v1/notes/update                        controllers.v1.Notes.update(public_key: String, signature: String)
