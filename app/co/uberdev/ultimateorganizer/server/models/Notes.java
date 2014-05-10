@@ -48,7 +48,7 @@ public class Notes extends CoreNotes implements CoreSelectable {
                 note.setOwnerId(set.getInt(CoreDataRules.columns.notes.ownerId));
                 note.setDateCreated(set.getInt(CoreDataRules.columns.notes.dateCreated));
                 note.setContent(set.getString(CoreDataRules.columns.notes.content));
-                note.setAttachment(set.getString(CoreDataRules.columns.notes.attachment));
+                note.setAttachment(CoreAttachment.fromJson(set.getString(CoreDataRules.columns.notes.attachment), CoreAttachment.class));
                 note.setLastModified(set.getInt(CoreDataRules.columns.notes.lastModified));
 
 
