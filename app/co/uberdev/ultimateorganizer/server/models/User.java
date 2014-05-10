@@ -7,6 +7,7 @@ import play.mvc.Result;
 
 import java.lang.reflect.Field;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import static play.mvc.Results.internalServerError;
@@ -123,7 +124,9 @@ public class User extends CoreUser implements CoreStorable
             CoreDataRules.columns.users.birthday+" "+
             ") VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-            PreparedStatement insertStatement = DB.getConnection().prepareStatement(insertSql);
+            ResultSet generatedKeys;
+
+            PreparedStatement insertStatement = DB.getConnection().prepareStatement(insertSql, PreparedStatement.RETURN_GENERATED_KEYS);
             insertStatement.setString(n++, getEmailAddress());
             insertStatement.setString(n++, getPasswordHashed());
             insertStatement.setString(n++, getFirstName());
@@ -139,6 +142,11 @@ public class User extends CoreUser implements CoreStorable
             insertStatement.setInt(n++, getBirthday());
 
             insertStatement.execute();
+
+            generatedKeys = insertStatement.getGeneratedKeys();
+            if(generatedKeys.next())
+                setId(generatedKeys.getLong(1));
+
             return true;
         }
         catch (SQLException e)
