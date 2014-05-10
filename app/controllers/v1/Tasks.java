@@ -1,7 +1,6 @@
 package controllers.v1;
 
-import co.uberdev.ultimateorganizer.core.CoreTask;
-import co.uberdev.ultimateorganizer.core.CoreUtils;
+import co.uberdev.ultimateorganizer.core.*;
 import co.uberdev.ultimateorganizer.server.models.Task;
 import co.uberdev.ultimateorganizer.server.models.User;
 import co.uberdev.ultimateorganizer.server.utils.Authentication;
@@ -78,8 +77,8 @@ public class Tasks extends Controller
 
     public static Result insert(String public_key, String signature)
     {
-
-        String requestBody =  request().body().asJson().toString();
+        JsonNode requestJson = request().body().asJson();
+        String requestBody =  requestJson.toString();
 
 
         User authUser = Authentication.getAuthenticatedUser(public_key,signature,requestBody);
@@ -90,6 +89,18 @@ public class Tasks extends Controller
 
                try
                {
+                   String tagsJsonStr = requestJson.findValue(CoreDataRules.columns.tasks.tags).toString();
+                   if(tagsJsonStr != null)
+                   {
+                       CoreTag[] tags = Core.fromJson(tagsJsonStr, CoreTag[].class);
+                       CoreTags coreTags = new CoreTags();
+                       for(int i=0;i<tags.length; i++)
+                       {
+                            coreTags.add(tags[i]);
+                       }
+                       toAdd.setTags(coreTags);
+                   }
+
                    if(toAdd.insert())
                         return ok(toAdd.asJsonString());
                    else
