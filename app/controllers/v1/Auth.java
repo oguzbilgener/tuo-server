@@ -67,8 +67,8 @@ public class Auth extends Controller
             String firstName = requestNode.findValue(CoreDataRules.fields.register.firstName).asText();
             String lastName = requestNode.findValue(CoreDataRules.fields.register.lastName).asText();
 
-            String schoolName = requestNode.findParent(CoreDataRules.fields.register.schoolName).asText();
-            String departmentName = requestNode.findParent(CoreDataRules.fields.register.departmentName).asText();
+            String schoolName = requestNode.findValue(CoreDataRules.fields.register.schoolName).asText();
+            String departmentName = requestNode.findValue(CoreDataRules.fields.register.departmentName).asText();
 
             int birthday = requestNode.findValue(CoreDataRules.fields.register.birthday).asInt();
 
