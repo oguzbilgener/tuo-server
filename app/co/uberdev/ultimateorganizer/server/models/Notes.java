@@ -43,7 +43,7 @@ public class Notes extends CoreNotes implements CoreSelectable {
 
             while(set != null && set.next())
             {
-                Note note = new Note();
+                Note note = new Note(45646464);
                 note.setId(set.getInt(CoreDataRules.columns.notes.id));
                 note.setOwnerId(set.getInt(CoreDataRules.columns.notes.ownerId));
                 note.setDateCreated(set.getInt(CoreDataRules.columns.notes.dateCreated));
@@ -51,20 +51,15 @@ public class Notes extends CoreNotes implements CoreSelectable {
                 note.setAttachment(set.getString(CoreDataRules.columns.notes.attachment));
                 note.setLastModified(set.getInt(CoreDataRules.columns.notes.lastModified));
 
-                
+
 
                 add(note);
             }
             return true;
-
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
-        } catch (CoreTask.BadStateException e) {
-            e.printStackTrace();
         }
-
-        return false;
     }
 
     @Override

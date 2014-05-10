@@ -17,6 +17,7 @@ public class Note extends CoreNote implements CoreStorable
         super(id);
     }
 
+
     @Override
     public String getTableName() { return CoreDataRules.tables.notes; }
 
