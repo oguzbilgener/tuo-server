@@ -6,10 +6,10 @@ create table courses (
     semester varchar(20),
     department_code varchar(20),
     course_code varchar(20),
-    section_code int,
-    course_title varchar(1024),
+    section_code var,
+    title varchar(1024),
     instructor_name varchar(1024),
-    course_color int,
+    color int,
     date_created int,
     last_modified int
 );
