@@ -6,20 +6,77 @@ import co.uberdev.ultimateorganizer.server.models.Task;
 import co.uberdev.ultimateorganizer.server.models.User;
 import co.uberdev.ultimateorganizer.server.utils.Authentication;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 
 
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 
 /**
  * Created by ata on 5/1/14.
  */
-public class Tasks extends Controller {
+public class Tasks extends Controller
+{
+    public static Result list(String public_key, String signature)
+    {
+        JsonNode requestBodyJson = request().body().asJson();
+        String requestBody =  requestBodyJson.toString();
 
-    public static Result insert(String public_key, String signature) throws SQLException
+
+        User authUser = Authentication.getAuthenticatedUser(public_key,signature,requestBody);
+        if(authUser != null)
+        {
+            co.uberdev.ultimateorganizer.server.models.Tasks list = new co.uberdev.ultimateorganizer.server.models.Tasks();
+
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+
+                Map<String,String> map = mapper.readValue(requestBody, HashMap.class);
+
+                Set<String> keys = map.keySet();
+                Iterator<String> it = keys.iterator();
+
+                String sqlCriteria = "";
+                String[] fields = new String[keys.size()*2];
+
+                int i = 0;
+
+                while(it.hasNext())
+                {
+                    String key = it.next();
+                    String value = map.get(key);
+
+                    sqlCriteria += " ? = ? ";
+                    if(it.hasNext())
+                        sqlCriteria += " AND ";
+
+                    fields[i++] = key;
+                    fields[i++] = value;
+                }
+
+                list.loadFromDb(sqlCriteria, fields, 0);
+
+                return ok(list.asJsonString());
+
+            }
+            catch(Exception e)
+            {
+                return internalServerError(CoreUtils.getStackTrace(e));
+            }
+
+        }else
+            return unauthorized();
+    }
+
+    public static Result insert(String public_key, String signature)
     {
 
         String requestBody =  request().body().asJson().toString();

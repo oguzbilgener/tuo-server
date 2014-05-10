@@ -16,6 +16,7 @@ POST    /v1/verify                              controllers.v1.Auth.verify(publi
 GET     /v1/verify                              controllers.v1.Application.index()
 POST    /v1/public_feed                         controllers.v1.PublicFeed.index()
 
+POST    /v1/tasks/list                          controllers.v1.Tasks.list(public_key: String, signature: String)
 POST    /v1/tasks/insert                        controllers.v1.Tasks.insert(public_key: String, signature: String)
 POST    /v1/tasks/update                        controllers.v1.Tasks.update(public_key: String, signature: String)
 POST    /v1/tasks/remove                        controllers.v1.Tasks.remove(public_key: String, signature: String)
