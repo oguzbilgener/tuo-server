@@ -221,7 +221,8 @@ public class User extends CoreUser implements CoreStorable
     public Tasks getFeed() throws SQLException
     {
             Courses coursesOfUser = new Courses();
-            coursesOfUser.loadFromDb(CoreDataRules.columns.courses.ownerId + " = ?", new String[]{String.valueOf(getId())}, 0);
+            coursesOfUser.loadFromDb(CoreDataRules.columns.courses.ownerId + " = ?::integer", new String[]{String.valueOf(getId())}, 0);
+            System.out.println(coursesOfUser.size());
             if(coursesOfUser.size() > 0)
             {
                 Tasks publicTasks = new Tasks();
@@ -233,9 +234,9 @@ public class User extends CoreUser implements CoreStorable
                 {
                     if(i>0)
                         sqlCriteria += " OR ";
-                    sqlCriteria += CoreDataRules.columns.tasks.courseCodeCombined + " = ? ";
+                    sqlCriteria += CoreDataRules.columns.tasks.courseCodeCombined + " = ?";
                 }
-                sqlCriteria += ") AND "+CoreDataRules.columns.tasks.ownerId + " != ? ";
+                sqlCriteria += ") AND "+CoreDataRules.columns.tasks.ownerId + " != ?::integer ";
                 for(int i=0; i<coursesOfUser.size(); i++)
                 {
                     fields[i] = coursesOfUser.get(i).getCourseCodeCombined();
