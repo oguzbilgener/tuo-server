@@ -234,9 +234,9 @@ public class User extends CoreUser implements CoreStorable
                 {
                     if(i>0)
                         sqlCriteria += " OR ";
-                    sqlCriteria += CoreDataRules.columns.tasks.courseCodeCombined + " = ? ";
+                    sqlCriteria += CoreDataRules.columns.tasks.courseCodeCombined + " = ?::integer ";
                 }
-                sqlCriteria += ") AND "+CoreDataRules.columns.tasks.ownerId + " != ? ";
+                sqlCriteria += ") AND "+CoreDataRules.columns.tasks.ownerId + " != ?::integer ";
                 for(int i=0; i<coursesOfUser.size(); i++)
                 {
                     fields[i] = coursesOfUser.get(i).getCourseCodeCombined();
