@@ -56,6 +56,7 @@ public class Notes extends CoreNotes implements CoreSelectable {
                 add(note);
             }
 
+            loadStatement.close();
             DB.getConnection().close();
             return true;
         } catch (SQLException e) {

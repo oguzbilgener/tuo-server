@@ -85,6 +85,7 @@ public class Users extends CoreUsers implements CoreSelectable
 
                 add(user);
             }
+            loadStatement.close();
             DB.getConnection().close();
             return true;
 

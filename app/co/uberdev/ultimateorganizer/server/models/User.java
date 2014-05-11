@@ -147,6 +147,7 @@ public class User extends CoreUser implements CoreStorable
             if(generatedKeys.next())
                 setId(generatedKeys.getLong(1));
 
+            insertStatement.close();
             DB.getConnection().close();
 
             return true;
