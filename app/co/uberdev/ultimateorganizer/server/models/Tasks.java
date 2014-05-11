@@ -64,7 +64,15 @@ public class Tasks extends CoreTasks implements CoreSelectable
                 task.setRelatedTasks(relatedTaskIds);
 
                 task.setStatus(set.getInt(CoreDataRules.columns.tasks.status));
-                task.setTags(fromJson(set.getString(CoreDataRules.columns.tasks.tags), CoreTags.class)); //TODO
+
+                CoreTag[] ctags = Core.fromJson(set.getString(CoreDataRules.columns.tasks.tags), CoreTag[].class);
+                CoreTags ctagsList = new CoreTags();
+
+                for(int i=0; i<ctags.length; i++)
+                    ctags[i] = ctagsList.get(i);
+
+                task.setTags(ctagsList);
+
                 task.setTaskDesc(set.getString(CoreDataRules.columns.tasks.taskDesc));
                 task.setTaskName(set.getString(CoreDataRules.columns.tasks.taskName));
                 task.setTaskOwnerNameCombined(set.getString(CoreDataRules.columns.tasks.taskOwnerNameCombined));
