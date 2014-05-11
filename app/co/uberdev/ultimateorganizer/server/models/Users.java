@@ -64,7 +64,6 @@ public class Users extends CoreUsers implements CoreSelectable
 
             while(set != null && set.next())
             {
-                // TODO: complete here for User class
                 // use database column names
                 User user = new User();
                 user.setId(set.getInt(CoreDataRules.columns.users.id));
@@ -86,6 +85,7 @@ public class Users extends CoreUsers implements CoreSelectable
 
                 add(user);
             }
+            DB.getConnection().close();
             return true;
 
         } catch (SQLException e) {

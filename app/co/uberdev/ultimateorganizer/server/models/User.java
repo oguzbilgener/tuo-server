@@ -147,6 +147,8 @@ public class User extends CoreUser implements CoreStorable
             if(generatedKeys.next())
                 setId(generatedKeys.getLong(1));
 
+            DB.getConnection().close();
+
             return true;
         }
         catch (SQLException e)
@@ -172,7 +174,6 @@ public class User extends CoreUser implements CoreStorable
 
     public static User fromPublicKey(String publicKey)
     {
-        // TODO: fix. This probably does not work:
         Users users = new Users();
         users.loadFromDb(CoreDataRules.columns.users.publicKey + " = ?", new String[] { publicKey }, 0);
         if(users.size() > 0)

@@ -53,6 +53,8 @@ public class Note extends CoreNote implements CoreStorable
             if(generatedKeys.next())
                 setId(generatedKeys.getLong(1));
 
+            DB.getConnection().close();
+
             return true;
 
 
@@ -89,6 +91,8 @@ public class Note extends CoreNote implements CoreStorable
 
             updateStatement.execute();
 
+            DB.getConnection().close();
+
             return true;
 
         }catch(SQLException e)
@@ -111,6 +115,9 @@ public class Note extends CoreNote implements CoreStorable
             removeStatement.setLong(1, getId());
 
             removeStatement.execute();
+
+            DB.getConnection().close();
+
             return true;
         }catch (SQLException e)
         {

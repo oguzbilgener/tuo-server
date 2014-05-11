@@ -51,6 +51,8 @@ public class Course extends CoreCourse implements CoreStorable
             if(generatedKeys.next())
                 setId(generatedKeys.getLong(1));
 
+            DB.getConnection().close();
+
             return true;
 
 
@@ -94,6 +96,8 @@ public class Course extends CoreCourse implements CoreStorable
 
             updateStatement.execute();
 
+            DB.getConnection().close();
+
             return true;
 
         }catch(SQLException e)
@@ -115,6 +119,9 @@ public class Course extends CoreCourse implements CoreStorable
             removeStatement.setLong(1, getId());
 
             removeStatement.execute();
+
+            DB.getConnection().close();
+
             return true;
         }catch (SQLException e)
         {

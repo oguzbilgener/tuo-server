@@ -78,6 +78,7 @@ public class Task extends CoreTask implements CoreStorable
             if(generatedKeys.next())
                 setId(generatedKeys.getLong(1));
 
+            DB.getConnection().close();
 
             return true;
         }
@@ -133,6 +134,9 @@ public class Task extends CoreTask implements CoreStorable
             updateStatement.setString(n++, getTaskOwnerNameCombined());
 
             updateStatement.execute();
+            updateStatement.close();
+
+            DB.getConnection().close();
 
             return true;
 
@@ -155,6 +159,8 @@ public class Task extends CoreTask implements CoreStorable
 
 
             removeStatement.execute();
+
+            DB.getConnection().close();
             return true;
 
         }catch (SQLException e)

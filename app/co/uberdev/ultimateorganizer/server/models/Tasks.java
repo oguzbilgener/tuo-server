@@ -78,6 +78,8 @@ public class Tasks extends CoreTasks implements CoreSelectable
                 task.setTaskOwnerNameCombined(set.getString(CoreDataRules.columns.tasks.taskOwnerNameCombined));
 
 
+                DB.getConnection().close();
+
                 // TODO: set devices
 
                 add(task);

@@ -58,6 +58,8 @@ public class Courses extends CoreCourses implements CoreSelectable
 
                 add(course);
             }
+
+            DB.getConnection().close();
             return true;
 
         } catch (SQLException e) {
