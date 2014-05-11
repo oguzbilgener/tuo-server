@@ -27,10 +27,10 @@ public class Course extends CoreCourse implements CoreStorable
             CoreDataRules.columns.courses.departmentCode+", "+
             CoreDataRules.columns.courses.courseCode+", "+
             CoreDataRules.columns.courses.sectionCode+", "+
-            CoreDataRules.columns.courses.title+" "+
-            CoreDataRules.columns.courses.instructor_name+" "+
+            CoreDataRules.columns.courses.title+", "+
+            CoreDataRules.columns.courses.instructor_name+", "+
             CoreDataRules.columns.courses.color+" "+
-            ") VALUES (default, ?, ?, ?, ?, ?, ?,?,?)";
+            ") VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             ResultSet generatedKeys;
 
@@ -70,16 +70,16 @@ public class Course extends CoreCourse implements CoreStorable
 
             int n = 1;
             String updateSql = "UPDATE "+ getTableName() + " SET " +
-            CoreDataRules.columns.courses.id+", "+
-            CoreDataRules.columns.courses.ownerId+", "+
-            CoreDataRules.columns.courses.semester+", "+
-            CoreDataRules.columns.courses.departmentCode+", "+
-            CoreDataRules.columns.courses.courseCode+", "+
-            CoreDataRules.columns.courses.sectionCode+", "+
-            CoreDataRules.columns.courses.title+" "+
-            CoreDataRules.columns.courses.instructor_name+" "+
+            CoreDataRules.columns.courses.id+" = ?, "+
+            CoreDataRules.columns.courses.ownerId+" = ?, "+
+            CoreDataRules.columns.courses.semester+" = ?, "+
+            CoreDataRules.columns.courses.departmentCode+" = ?, "+
+            CoreDataRules.columns.courses.courseCode+" = ?, "+
+            CoreDataRules.columns.courses.sectionCode+" = ?, "+
+            CoreDataRules.columns.courses.title+" = ?, "+
+            CoreDataRules.columns.courses.instructor_name+" = ?, "+
             CoreDataRules.columns.courses.color+" "+
-            " WHERE id = "  + getId();
+            " WHERE "+CoreDataRules.columns.courses.id+" = "  + getId();
 
 
             PreparedStatement updateStatement = DB.getConnection().prepareStatement(updateSql);
