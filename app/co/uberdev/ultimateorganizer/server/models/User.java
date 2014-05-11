@@ -221,7 +221,7 @@ public class User extends CoreUser implements CoreStorable
     public Tasks getFeed() throws SQLException
     {
             Courses coursesOfUser = new Courses();
-            coursesOfUser.loadFromDb(CoreDataRules.columns.courses.ownerId + " = ?", new String[]{String.valueOf(getId())}, 0);
+            coursesOfUser.loadFromDb(CoreDataRules.columns.courses.ownerId + " = ?::integer", new String[]{String.valueOf(getId())}, 0);
             System.out.println(coursesOfUser.size());
             if(coursesOfUser.size() > 0)
             {
