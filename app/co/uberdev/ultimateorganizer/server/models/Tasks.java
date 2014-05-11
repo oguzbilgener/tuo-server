@@ -69,7 +69,7 @@ public class Tasks extends CoreTasks implements CoreSelectable
                 CoreTags ctagsList = new CoreTags();
 
                 for(int i=0; i<ctags.length; i++)
-                    ctags[i] = ctagsList.get(i);
+                    ctagsList.set(i, ctags[i]);
 
                 task.setTags(ctagsList);
 

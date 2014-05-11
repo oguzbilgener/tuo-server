@@ -33,7 +33,7 @@ public class Users extends Controller {
             }
             catch(Exception e)
             {
-                return badRequest();
+                return internalServerError(CoreUtils.getStackTrace(e));
             }
         }
         else
