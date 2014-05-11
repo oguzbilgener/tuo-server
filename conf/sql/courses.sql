@@ -6,7 +6,7 @@ create table courses (
     semester varchar(20),
     department_code varchar(20),
     course_code varchar(20),
-    section_code var,
+    section_code varchar(20),
     title varchar(1024),
     instructor_name varchar(1024),
     color int,
