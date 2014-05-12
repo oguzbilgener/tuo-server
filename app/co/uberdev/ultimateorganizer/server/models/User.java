@@ -248,6 +248,7 @@ public class User extends CoreUser implements CoreStorable
                 fields[coursesOfUser.size()] = String.valueOf(getId());
                 fields[coursesOfUser.size()+1] = "false";
 
+                System.out.println(sqlCriteria);
 
                 publicTasks.loadFromDb(sqlCriteria, fields, 0);
 
