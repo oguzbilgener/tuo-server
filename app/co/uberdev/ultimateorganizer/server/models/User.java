@@ -229,7 +229,7 @@ public class User extends CoreUser implements CoreStorable
             {
                 Tasks publicTasks = new Tasks();
                 String sqlCriteria = "";
-                String[] fields = new String[coursesOfUser.size()+1];
+                String[] fields = new String[coursesOfUser.size()+2];
 
                 sqlCriteria += "(";
                 for(int i=0; i< coursesOfUser.size(); i++)
@@ -238,12 +238,15 @@ public class User extends CoreUser implements CoreStorable
                         sqlCriteria += " OR ";
                     sqlCriteria += CoreDataRules.columns.tasks.courseCodeCombined + " = ?";
                 }
-                sqlCriteria += ") AND "+CoreDataRules.columns.tasks.ownerId + " != ?::integer ";
+                sqlCriteria += ") AND "+CoreDataRules.columns.tasks.ownerId + " != ?::integer AND "+
+                        CoreDataRules.columns.tasks.personal+" = ?::boolean";
+
                 for(int i=0; i<coursesOfUser.size(); i++)
                 {
                     fields[i] = coursesOfUser.get(i).getCourseCodeCombined();
                 }
                 fields[coursesOfUser.size()] = String.valueOf(getId());
+                fields[coursesOfUser.size()+1] = "false";
 
 
                 publicTasks.loadFromDb(sqlCriteria, fields, 0);
