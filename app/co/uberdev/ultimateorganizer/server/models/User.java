@@ -229,7 +229,7 @@ public class User extends CoreUser implements CoreStorable
             {
                 Tasks publicTasks = new Tasks();
                 String sqlCriteria = "";
-                String[] fields = new String[coursesOfUser.size()+2];
+                String[] fields = new String[coursesOfUser.size()+3];
 
                 sqlCriteria += "(";
                 for(int i=0; i< coursesOfUser.size(); i++)
@@ -239,7 +239,8 @@ public class User extends CoreUser implements CoreStorable
                     sqlCriteria += CoreDataRules.columns.tasks.courseCodeCombined + " = ?";
                 }
                 sqlCriteria += ") AND "+CoreDataRules.columns.tasks.ownerId + " != ?::integer AND "+
-                        CoreDataRules.columns.tasks.personal+" = ?::boolean";
+                        CoreDataRules.columns.tasks.personal+" = ?::boolean AND "+
+                        CoreDataRules.columns.tasks.beginDate+">= ?::integer ORDER BY "+CoreDataRules.columns.tasks.beginDate;
 
                 for(int i=0; i<coursesOfUser.size(); i++)
                 {
@@ -247,6 +248,7 @@ public class User extends CoreUser implements CoreStorable
                 }
                 fields[coursesOfUser.size()] = String.valueOf(getId());
                 fields[coursesOfUser.size()+1] = "false";
+                fields[coursesOfUser.size()+2] = String.valueOf(CoreUtils.getUnixTimestamp());
 
                 System.out.println(sqlCriteria);
 
