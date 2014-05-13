@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import play.db.DB;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,7 +22,9 @@ public class Courses extends CoreCourses implements CoreSelectable
     }
 
     @Override
-    public boolean loadFromDb(String sqlCriteria, String[] params, int limit) {
+    public boolean loadFromDb(String sqlCriteria, String[] params, int limit)
+    {
+        Connection connection = DB.getConnection();
         try {
             int n = 1;
             String loadSql = "SELECT * FROM "+getTableName();
@@ -29,7 +32,7 @@ public class Courses extends CoreCourses implements CoreSelectable
                 loadSql += " WHERE "+sqlCriteria;
             }
 
-            PreparedStatement loadStatement = DB.getConnection().prepareStatement(loadSql);
+            PreparedStatement loadStatement = connection.prepareStatement(loadSql);
             if(params != null)
             {
                 for(String param : params)
@@ -60,12 +63,19 @@ public class Courses extends CoreCourses implements CoreSelectable
             }
 
             loadStatement.close();
-            DB.getConnection().close();
             return true;
 
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        }
+        finally
+        {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 

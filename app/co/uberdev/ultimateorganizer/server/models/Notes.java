@@ -4,6 +4,8 @@ import co.uberdev.ultimateorganizer.core.*;
 import com.google.gson.reflect.TypeToken;
 import play.db.DB;
 import com.google.gson.Gson;
+
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,6 +24,7 @@ public class Notes extends CoreNotes implements CoreSelectable {
 
     @Override
     public boolean loadFromDb(String sqlCriteria, String[] params, int limit) {
+        Connection connection = DB.getConnection();
         try {
             int n = 1;
             String loadSql = "SELECT * FROM "+getTableName();
@@ -29,7 +32,7 @@ public class Notes extends CoreNotes implements CoreSelectable {
                 loadSql += " WHERE "+sqlCriteria;
             }
 
-            PreparedStatement loadStatement = DB.getConnection().prepareStatement(loadSql);
+            PreparedStatement loadStatement = connection.prepareStatement(loadSql);
             if(params != null)
             {
                 for(String param : params)
@@ -57,11 +60,18 @@ public class Notes extends CoreNotes implements CoreSelectable {
             }
 
             loadStatement.close();
-            DB.getConnection().close();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        }
+        finally
+        {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 

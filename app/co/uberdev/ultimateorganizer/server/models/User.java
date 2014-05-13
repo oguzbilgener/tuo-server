@@ -6,6 +6,7 @@ import play.db.DB;
 import play.mvc.Result;
 
 import java.lang.reflect.Field;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -104,6 +105,7 @@ public class User extends CoreUser implements CoreStorable
     @Override
     public boolean insert()
     {
+        Connection connection = DB.getConnection();
         try
         {
             int n = 1;
@@ -126,7 +128,7 @@ public class User extends CoreUser implements CoreStorable
 
             ResultSet generatedKeys;
 
-            PreparedStatement insertStatement = DB.getConnection().prepareStatement(insertSql, PreparedStatement.RETURN_GENERATED_KEYS);
+            PreparedStatement insertStatement = connection.prepareStatement(insertSql, PreparedStatement.RETURN_GENERATED_KEYS);
             insertStatement.setString(n++, getEmailAddress());
             insertStatement.setString(n++, getPasswordHashed());
             insertStatement.setString(n++, getFirstName());
@@ -154,9 +156,15 @@ public class User extends CoreUser implements CoreStorable
         }
         catch (SQLException e)
         {
-
              e.printStackTrace();
-
+        }
+        finally
+        {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return false;
     }

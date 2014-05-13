@@ -17,6 +17,7 @@ public class Course extends CoreCourse implements CoreStorable
 
     @Override
     public boolean insert() {
+        Connection connection = DB.getConnection();
         try
         {
             int n = 1;
@@ -34,7 +35,7 @@ public class Course extends CoreCourse implements CoreStorable
 
             ResultSet generatedKeys;
 
-            PreparedStatement insertStatement = DB.getConnection().prepareStatement(insertSql, PreparedStatement.RETURN_GENERATED_KEYS);
+            PreparedStatement insertStatement = connection.prepareStatement(insertSql, PreparedStatement.RETURN_GENERATED_KEYS);
             insertStatement.setLong(n++, getOwnerId());
             insertStatement.setString(n++, getCourseSemester());
             insertStatement.setString(n++, getDepartmentCode());
@@ -51,14 +52,20 @@ public class Course extends CoreCourse implements CoreStorable
             if(generatedKeys.next())
                 setId(generatedKeys.getLong(1));
 
-            DB.getConnection().close();
-
             return true;
 
 
         }catch(SQLException e)
         {
             System.out.println(CoreUtils.getStackTrace(e));
+        }
+        finally
+        {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
         return false;
@@ -67,6 +74,7 @@ public class Course extends CoreCourse implements CoreStorable
     @Override
     public boolean update() {
 
+        Connection connection = DB.getConnection();
         try
         {
 
@@ -84,7 +92,7 @@ public class Course extends CoreCourse implements CoreStorable
             " WHERE "+CoreDataRules.columns.courses.id+" = "  + getId();
 
 
-            PreparedStatement updateStatement = DB.getConnection().prepareStatement(updateSql);
+            PreparedStatement updateStatement = connection.prepareStatement(updateSql);
             updateStatement.setLong(n++, getOwnerId());
             updateStatement.setString(n++, getCourseSemester());
             updateStatement.setString(n++, getDepartmentCode());
@@ -96,13 +104,19 @@ public class Course extends CoreCourse implements CoreStorable
 
             updateStatement.execute();
 
-            DB.getConnection().close();
-
             return true;
 
         }catch(SQLException e)
         {
             System.out.println(CoreUtils.getStackTrace(e));
+        }
+        finally
+        {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
         return false;
@@ -111,21 +125,28 @@ public class Course extends CoreCourse implements CoreStorable
     @Override
     public boolean remove() {
 
+        Connection connection = DB.getConnection();
         try
         {
             String removeSql = "DELETE FROM " + getTableName() + " WHERE " + CoreDataRules.columns.courses.id + " = ?" ;
 
-            PreparedStatement removeStatement = DB.getConnection().prepareStatement(removeSql);
+            PreparedStatement removeStatement = connection.prepareStatement(removeSql);
             removeStatement.setLong(1, getId());
 
             removeStatement.execute();
-
-            DB.getConnection().close();
 
             return true;
         }catch (SQLException e)
         {
             System.out.println(CoreUtils.getStackTrace(e));
+        }
+        finally
+        {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return false;
     }
