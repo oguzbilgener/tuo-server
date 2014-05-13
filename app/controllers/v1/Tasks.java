@@ -7,6 +7,7 @@ import co.uberdev.ultimateorganizer.server.utils.Authentication;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import org.apache.commons.lang.StringEscapeUtils;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -53,11 +54,10 @@ public class Tasks extends Controller
                     String key = it.next();
                     String value = map.get(key);
 
-                    sqlCriteria += " ? = ? ";
+                    sqlCriteria +=  StringEscapeUtils.escapeSql(key)+" = ? ";
                     if(it.hasNext())
                         sqlCriteria += " AND ";
 
-                    fields[i++] = key;
                     fields[i++] = value;
                 }
 
