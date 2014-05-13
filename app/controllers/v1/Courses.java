@@ -53,9 +53,13 @@ public class Courses extends Controller {
                     if(it.hasNext())
                         sqlCriteria += " AND ";
 
+                    System.out.println(key+"::"+value);
+
                     fields[i++] = key;
                     fields[i++] = value;
                 }
+
+                System.out.println(sqlCriteria);
 
                 list.loadFromDb(sqlCriteria, fields, 0);
 
