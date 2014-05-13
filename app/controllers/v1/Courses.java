@@ -43,8 +43,6 @@ public class Courses extends Controller {
                 String sqlCriteria = "";
                 String[] fields = new String[keys.size()];
 
-                System.out.println("lol");
-
                 int i = 0;
 
                 while(it.hasNext())
@@ -57,7 +55,7 @@ public class Courses extends Controller {
                         sqlCriteria += " AND ";
 
                     fields[i++] = value;
-                }
+                }                     System.out.println(sqlCriteria);
 
                 list.loadFromDb(sqlCriteria, fields, 0);
 
