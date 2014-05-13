@@ -51,6 +51,7 @@ public class Tasks extends CoreTasks implements CoreSelectable
                 task.setBeginDate(set.getInt(CoreDataRules.columns.tasks.beginDate));
                 task.setCourseId(set.getInt(CoreDataRules.columns.tasks.courseId));
                 task.setCourseCodeCombined(set.getString(CoreDataRules.columns.tasks.courseCodeCombined));
+                task.setCourse(CoreCourse.fromJson(set.getString(CoreDataRules.columns.tasks.course), CoreCourse.class));
                 task.setDateCreated(set.getInt(CoreDataRules.columns.tasks.dateCreated));
                 task.setEndDate(set.getInt(CoreDataRules.columns.tasks.endDate));
                 task.setLastModified(set.getInt(CoreDataRules.columns.tasks.lastModified));
