@@ -62,8 +62,8 @@ public class Users extends Controller {
 
             try {
 
-                list.loadFromDb(CoreDataRules.columns.courses.ownerId, new String[] {String.valueOf(authUser.getId())}, 0);
-                System.out.println(CoreDataRules.columns.courses.ownerId+" "+String.valueOf(authUser.getId()));
+                list.loadFromDb(CoreDataRules.columns.courses.ownerId+" = ?", new String[] {String.valueOf(authUser.getId())}, 0);
+
                 return ok(list.asJsonString());
 
             }
@@ -89,7 +89,7 @@ public class Users extends Controller {
 
             try {
 
-                list.loadFromDb(CoreDataRules.columns.tasks.ownerId, new String[] {String.valueOf(authUser.getId())}, 0);
+                list.loadFromDb(CoreDataRules.columns.tasks.ownerId+" = ?", new String[] {String.valueOf(authUser.getId())}, 0);
 
                 return ok(list.asJsonString());
 
