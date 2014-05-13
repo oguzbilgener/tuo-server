@@ -52,7 +52,7 @@ public class Courses extends Controller {
                     String key = it.next();
                     String value = String.valueOf(map.get(key));
 
-                    sqlCriteria +=  StringEscapeUtils.escapeSql(key)+" = ? ";
+                    sqlCriteria +=  StringEscapeUtils.escapeSql(key).replace("'","")+" = ? ";
                     if(it.hasNext())
                         sqlCriteria += " AND ";
 
