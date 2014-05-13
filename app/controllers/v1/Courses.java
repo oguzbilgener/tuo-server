@@ -18,7 +18,7 @@ import java.util.Set;
 /**
  * Created by ata, Edited by guraybaydur on 5/7/14.
  */
-public class    Courses extends Controller {
+public class Courses extends Controller {
 
     public static Result list(String public_key, String signature)
     {
@@ -47,7 +47,7 @@ public class    Courses extends Controller {
                 while(it.hasNext())
                 {
                     String key = it.next();
-                    String value = map.get(key);
+                    String value = String.valueOf(map.get(key));
 
                     sqlCriteria += " ? = ? ";
                     if(it.hasNext())
