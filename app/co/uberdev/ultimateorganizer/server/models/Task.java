@@ -3,6 +3,8 @@ package co.uberdev.ultimateorganizer.server.models;
 import co.uberdev.ultimateorganizer.core.*;
 import com.google.gson.Gson;
 import play.db.DB;
+
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,6 +29,7 @@ public class Task extends CoreTask implements CoreStorable
     @Override
     public boolean insert()
     {
+        Connection connection = DB.getConnection();
         try
         {
             int n = 1;
@@ -52,7 +55,7 @@ public class Task extends CoreTask implements CoreStorable
 
             ResultSet generatedKeys;
 
-            PreparedStatement insertStatement = DB.getConnection().prepareStatement(insertSql, PreparedStatement.RETURN_GENERATED_KEYS);
+            PreparedStatement insertStatement = connection.prepareStatement(insertSql, PreparedStatement.RETURN_GENERATED_KEYS);
             insertStatement.setLong(n++, getOwnerId());
             insertStatement.setInt(n++, getBeginDate());
             insertStatement.setLong(n++, getCourseId());
@@ -79,7 +82,6 @@ public class Task extends CoreTask implements CoreStorable
                 setId(generatedKeys.getLong(1));
 
             insertStatement.close();
-            DB.getConnection().close();
 
             return true;
         }
@@ -87,13 +89,21 @@ public class Task extends CoreTask implements CoreStorable
         {
             System.out.println(CoreUtils.getStackTrace(e));
         }
+        finally
+        {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
         return false;
     }
 
     @Override
     public boolean update()
     {
-
+        Connection connection = DB.getConnection();
         try
         {
 
@@ -117,7 +127,7 @@ public class Task extends CoreTask implements CoreStorable
                     " WHERE id = " + getId();
 
 
-            PreparedStatement updateStatement = DB.getConnection().prepareStatement(updateSql);
+            PreparedStatement updateStatement = connection.prepareStatement(updateSql);
             updateStatement.setLong(n++, getOwnerId());
             updateStatement.setInt(n++, getBeginDate());
             updateStatement.setLong(n++, getCourseId());
@@ -137,13 +147,19 @@ public class Task extends CoreTask implements CoreStorable
             updateStatement.execute();
             updateStatement.close();
 
-            DB.getConnection().close();
-
             return true;
 
         }catch(SQLException e)
         {
             System.out.println(CoreUtils.getStackTrace(e));
+        }
+        finally
+        {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return false;
     }
@@ -151,23 +167,32 @@ public class Task extends CoreTask implements CoreStorable
     @Override
     public boolean remove()
     {
+        Connection connection = DB.getConnection();
         try {
 
-            String removeSql    = "DELETE FROM " + getTableName() + " WHERE "+ CoreDataRules.columns.tasks.id +" = ?" ;
+            String removeSql = "DELETE FROM " + getTableName() + " WHERE "+ CoreDataRules.columns.tasks.id +" = ?" ;
 
-            PreparedStatement removeStatement = DB.getConnection().prepareStatement(removeSql);
+            PreparedStatement removeStatement = connection.prepareStatement(removeSql);
             removeStatement.setLong(1, getId());
 
 
             removeStatement.execute();
 
             removeStatement.close();
-            DB.getConnection().close();
+
             return true;
 
         }catch (SQLException e)
         {
             System.out.println(CoreUtils.getStackTrace(e));
+        }
+        finally
+        {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return false;
     }

@@ -5,6 +5,7 @@ import co.uberdev.ultimateorganizer.core.CoreSelectable;
 import co.uberdev.ultimateorganizer.core.CoreUsers;
 import play.db.DB;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -42,7 +43,7 @@ public class Users extends CoreUsers implements CoreSelectable
     @Override
     public boolean loadFromDb(String sqlCriteria, String[] params, int limit)
     {
-
+        Connection connection = DB.getConnection();
         try {
             int n = 1;
             String loadSql = "SELECT * FROM "+getTableName();
@@ -50,7 +51,7 @@ public class Users extends CoreUsers implements CoreSelectable
                 loadSql += " WHERE "+sqlCriteria;
             }
 
-            PreparedStatement loadStatement = DB.getConnection().prepareStatement(loadSql);
+            PreparedStatement loadStatement = connection.prepareStatement(loadSql);
             if(params != null)
             {
                 for(String param : params)
@@ -86,12 +87,20 @@ public class Users extends CoreUsers implements CoreSelectable
                 add(user);
             }
             loadStatement.close();
-            DB.getConnection().close();
+
             return true;
 
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        }
+        finally
+        {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 

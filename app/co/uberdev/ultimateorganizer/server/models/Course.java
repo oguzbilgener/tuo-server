@@ -19,6 +19,7 @@ public class Course extends CoreCourse implements CoreStorable
     @Override
     //Puts the information of the course into the database with meaningful names
     public boolean insert() {
+        Connection connection = DB.getConnection();
         try
         {
             //In order to save the course into db preparing a sql string
@@ -39,7 +40,7 @@ public class Course extends CoreCourse implements CoreStorable
             ResultSet generatedKeys;
 
             //Preparing Sql Statement
-            PreparedStatement insertStatement = DB.getConnection().prepareStatement(insertSql, PreparedStatement.RETURN_GENERATED_KEYS);
+            PreparedStatement insertStatement = connection.prepareStatement(insertSql, PreparedStatement.RETURN_GENERATED_KEYS);
 
             // Filling question marks with related course info sequentially
             insertStatement.setLong(n++, getOwnerId());
@@ -58,14 +59,20 @@ public class Course extends CoreCourse implements CoreStorable
             if(generatedKeys.next())
                 setId(generatedKeys.getLong(1));
 
-            DB.getConnection().close();
-
             return true;
 
 
         }catch(SQLException e)
         {
             System.out.println(CoreUtils.getStackTrace(e));
+        }
+        finally
+        {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
         return false;
@@ -74,6 +81,7 @@ public class Course extends CoreCourse implements CoreStorable
     @Override
     public boolean update() {
 
+        Connection connection = DB.getConnection();
         try
         {
             //Updating course detail if any arrangement occurred
@@ -90,8 +98,9 @@ public class Course extends CoreCourse implements CoreStorable
             CoreDataRules.columns.courses.color+" "+
             " WHERE "+CoreDataRules.columns.courses.id+" = "  + getId();
 
+
             //Preparing Sql Statement
-            PreparedStatement updateStatement = DB.getConnection().prepareStatement(updateSql);
+            PreparedStatement updateStatement = connection.prepareStatement(updateSql);
 
             // Updating old features with new ones sequentially
             updateStatement.setLong(n++, getOwnerId());
@@ -105,38 +114,52 @@ public class Course extends CoreCourse implements CoreStorable
 
             updateStatement.execute();
 
-            DB.getConnection().close();
-
             return true;
 
         }catch(SQLException e)
         {
             System.out.println(CoreUtils.getStackTrace(e));
         }
+        finally
+        {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
 
         return false;
     }
 
     @Override
+    //Deletes the data from database
     public boolean remove() {
 
-        //Deletes the data from database
+        Connection connection = DB.getConnection();
+
         try
         {
             //Preparing a sql string and remove statement
             String removeSql = "DELETE FROM " + getTableName() + " WHERE " + CoreDataRules.columns.courses.id + " = ?" ;
 
-            PreparedStatement removeStatement = DB.getConnection().prepareStatement(removeSql);
+            PreparedStatement removeStatement = connection.prepareStatement(removeSql);
             removeStatement.setLong(1, getId());
 
             removeStatement.execute();
-
-            DB.getConnection().close();
 
             return true;
         }catch (SQLException e)
         {
             System.out.println(CoreUtils.getStackTrace(e));
+        }
+        finally
+        {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return false;
     }

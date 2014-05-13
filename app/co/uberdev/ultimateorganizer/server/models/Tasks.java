@@ -4,6 +4,8 @@ import co.uberdev.ultimateorganizer.core.*;
 import com.google.gson.reflect.TypeToken;
 import play.db.DB;
 import com.google.gson.Gson;
+
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,6 +26,7 @@ public class Tasks extends CoreTasks implements CoreSelectable
     @Override
     public boolean loadFromDb(String sqlCriteria, String[] params, int limit)
     {
+        Connection connection = DB.getConnection();
         try {
             int n = 1;
             String loadSql = "SELECT * FROM "+getTableName();
@@ -31,7 +34,7 @@ public class Tasks extends CoreTasks implements CoreSelectable
                 loadSql += " WHERE "+sqlCriteria;
             }
 
-            PreparedStatement loadStatement = DB.getConnection().prepareStatement(loadSql);
+            PreparedStatement loadStatement = connection.prepareStatement(loadSql);
             if(params != null)
             {
                 for(String param : params)
@@ -51,6 +54,7 @@ public class Tasks extends CoreTasks implements CoreSelectable
                 task.setBeginDate(set.getInt(CoreDataRules.columns.tasks.beginDate));
                 task.setCourseId(set.getInt(CoreDataRules.columns.tasks.courseId));
                 task.setCourseCodeCombined(set.getString(CoreDataRules.columns.tasks.courseCodeCombined));
+                task.setCourse(CoreCourse.fromJson(set.getString(CoreDataRules.columns.tasks.course), CoreCourse.class));
                 task.setDateCreated(set.getInt(CoreDataRules.columns.tasks.dateCreated));
                 task.setEndDate(set.getInt(CoreDataRules.columns.tasks.endDate));
                 task.setLastModified(set.getInt(CoreDataRules.columns.tasks.lastModified));
@@ -83,7 +87,7 @@ public class Tasks extends CoreTasks implements CoreSelectable
             }
 
             loadStatement.close();
-            DB.getConnection().close();
+
             return true;
 
         } catch (SQLException e) {
@@ -91,6 +95,14 @@ public class Tasks extends CoreTasks implements CoreSelectable
             return false;
         } catch (CoreTask.BadStateException e) {
             e.printStackTrace();
+        }
+        finally
+        {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
         return false;

@@ -6,6 +6,7 @@ import co.uberdev.ultimateorganizer.server.models.User;
 import co.uberdev.ultimateorganizer.server.utils.Authentication;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang.StringEscapeUtils;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -41,22 +42,21 @@ public class Courses extends Controller {
                 Iterator<String> it = keys.iterator();
 
                 String sqlCriteria = "";
-                String[] fields = new String[keys.size()*2];
+                String[] fields = new String[keys.size()];
 
                 int i = 0;
 
                 while(it.hasNext())
                 {
                     String key = it.next();
-                    String value = map.get(key);
+                    String value = String.valueOf(map.get(key));
 
-                    sqlCriteria += " ? = ? ";
+                    sqlCriteria +=  StringEscapeUtils.escapeSql(key).replace("'","")+" = ? ";
                     if(it.hasNext())
                         sqlCriteria += " AND ";
 
-                    fields[i++] = key;
                     fields[i++] = value;
-                }
+                }                     System.out.println(sqlCriteria);
 
                 list.loadFromDb(sqlCriteria, fields, 0);
 

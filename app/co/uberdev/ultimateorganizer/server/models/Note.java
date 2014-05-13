@@ -22,7 +22,9 @@ public class Note extends CoreNote implements CoreStorable
     public String getTableName() { return CoreDataRules.tables.notes; }
 
     @Override
-    public boolean insert() {
+    public boolean insert()
+    {
+        Connection connection = DB.getConnection();
         try
         {
             int n = 1;
@@ -38,7 +40,7 @@ public class Note extends CoreNote implements CoreStorable
 
             ResultSet generatedKeys;
 
-            PreparedStatement insertStatement = DB.getConnection().prepareStatement(insertSql, PreparedStatement.RETURN_GENERATED_KEYS);
+            PreparedStatement insertStatement = connection.prepareStatement(insertSql, PreparedStatement.RETURN_GENERATED_KEYS);
             insertStatement.setLong(n++, getOwnerId());
             insertStatement.setString(n++, getAttachment().asJsonString());
             insertStatement.setString(n++, getContent());
@@ -54,7 +56,6 @@ public class Note extends CoreNote implements CoreStorable
                 setId(generatedKeys.getLong(1));
 
             insertStatement.close();
-            DB.getConnection().close();
 
             return true;
 
@@ -63,6 +64,14 @@ public class Note extends CoreNote implements CoreStorable
         {
             System.out.println(CoreUtils.getStackTrace(e));
         }
+        finally
+        {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
 
         return false;
     }
@@ -70,6 +79,7 @@ public class Note extends CoreNote implements CoreStorable
     @Override
     public boolean update() {
 
+        Connection connection = DB.getConnection();
         try
         {
 
@@ -83,7 +93,7 @@ public class Note extends CoreNote implements CoreStorable
                     " WHERE id = "  + getId();
 
 
-            PreparedStatement updateStatement = DB.getConnection().prepareStatement(updateSql);
+            PreparedStatement updateStatement = connection.prepareStatement(updateSql);
             updateStatement.setLong(n++,getOwnerId());
             updateStatement.setString(n++, getAttachment().asJsonString());
             updateStatement.setString(n++, getContent());
@@ -93,13 +103,20 @@ public class Note extends CoreNote implements CoreStorable
             updateStatement.execute();
 
             updateStatement.close();
-            DB.getConnection().close();
 
             return true;
 
         }catch(SQLException e)
         {
             System.out.println(CoreUtils.getStackTrace(e));
+        }
+        finally
+        {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
         return false;
@@ -109,22 +126,30 @@ public class Note extends CoreNote implements CoreStorable
     @Override
     public boolean remove() {
 
+        Connection connection = DB.getConnection();
         try
         {
             String removeSql = "DELETE FROM " + getTableName() + " WHERE " + CoreDataRules.columns.notes.id + " = ?" ;
 
-            PreparedStatement removeStatement = DB.getConnection().prepareStatement(removeSql);
+            PreparedStatement removeStatement = connection.prepareStatement(removeSql);
             removeStatement.setLong(1, getId());
 
             removeStatement.execute();
 
             removeStatement.close();
-            DB.getConnection().close();
 
             return true;
         }catch (SQLException e)
         {
             System.out.println(CoreUtils.getStackTrace(e));
+        }
+        finally
+        {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return false;
     }
