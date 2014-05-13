@@ -16,16 +16,17 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by ata, Edited by guraybaydur on 5/7/14.
+ * Created by guraybaydur on 5/7/14.
  */
-public class    Courses extends Controller {
+public class Courses extends Controller {
 
     public static Result list(String public_key, String signature)
     {
+        //Gets the request body as JSON obj
         JsonNode requestBodyJson = request().body().asJson();
         String requestBody =  requestBodyJson.toString();
 
-
+        //Creating a user
         User authUser = Authentication.getAuthenticatedUser(public_key,signature,requestBody);
         if(authUser != null)
         {

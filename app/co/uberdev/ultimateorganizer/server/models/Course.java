@@ -11,14 +11,17 @@ public class Course extends CoreCourse implements CoreStorable
 {
 
     @Override
+    //Finds the course part from DataRules and returns its name
     public String getTableName() {
         return CoreDataRules.tables.courses;
     }
 
     @Override
+    //Puts the information of the course into the database with meaningful names
     public boolean insert() {
         try
         {
+            //In order to save the course into db preparing a sql string
             int n = 1;
             String insertSql = "INSERT INTO "+ getTableName() + " (" +
             CoreDataRules.columns.courses.id+", "+
@@ -32,9 +35,13 @@ public class Course extends CoreCourse implements CoreStorable
             CoreDataRules.columns.courses.color+" "+
             ") VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?)";
 
+            //Result of statement will be in type ResultSet
             ResultSet generatedKeys;
 
+            //Preparing Sql Statement
             PreparedStatement insertStatement = DB.getConnection().prepareStatement(insertSql, PreparedStatement.RETURN_GENERATED_KEYS);
+
+            // Filling question marks with related course info sequentially
             insertStatement.setLong(n++, getOwnerId());
             insertStatement.setString(n++, getCourseSemester());
             insertStatement.setString(n++, getDepartmentCode());
@@ -69,7 +76,7 @@ public class Course extends CoreCourse implements CoreStorable
 
         try
         {
-
+            //Updating course detail if any arrangement occurred
             int n = 1;
             String updateSql = "UPDATE "+ getTableName() + " SET " +
             CoreDataRules.columns.courses.id+" = ?, "+
@@ -83,8 +90,10 @@ public class Course extends CoreCourse implements CoreStorable
             CoreDataRules.columns.courses.color+" "+
             " WHERE "+CoreDataRules.columns.courses.id+" = "  + getId();
 
-
+            //Preparing Sql Statement
             PreparedStatement updateStatement = DB.getConnection().prepareStatement(updateSql);
+
+            // Updating old features with new ones sequentially
             updateStatement.setLong(n++, getOwnerId());
             updateStatement.setString(n++, getCourseSemester());
             updateStatement.setString(n++, getDepartmentCode());
@@ -111,8 +120,10 @@ public class Course extends CoreCourse implements CoreStorable
     @Override
     public boolean remove() {
 
+        //Deletes the data from database
         try
         {
+            //Preparing a sql string and remove statement
             String removeSql = "DELETE FROM " + getTableName() + " WHERE " + CoreDataRules.columns.courses.id + " = ?" ;
 
             PreparedStatement removeStatement = DB.getConnection().prepareStatement(removeSql);
